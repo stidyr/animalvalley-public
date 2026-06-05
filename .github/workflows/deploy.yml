@@ -1,0 +1,28 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Inject secrets
+        run: |
+          find . \( -name "*.html" -o -name "*.js" \) \
+            ! -path "./.git/*" \
+            ! -path "./.github/*" \
+            | xargs sed -i \
+              -e 's|__STORAGE_KEY__|${{ secrets.PUBLIC_API_KEY }}|g'
+
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          cname: animalvalley.no
+          exclude_assets: .github,CLAUDE.md
