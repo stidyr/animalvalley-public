@@ -1,5 +1,5 @@
 const API_BASE = "https://api.animalvalley.no";
-const API_KEY  = "";
+const API_KEY  = "VnytmYd8mcgXBiUPbAKfmNDc8z4EzB";
 const SCOPE    = "public";
 
 export const storage = {
