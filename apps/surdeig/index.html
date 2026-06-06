@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surdeigsbrød med Spelt</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --warm-white: #faf7f2;
+    --brown-dark: #2c1a0e;
+    --brown-mid: #6b3f1f;
+    --brown-light: #a0622a;
+    --amber: #c8832a;
+    --amber-light: #e8b06a;
+    --crust: #8b4513;
+    --text: #1a0f08;
+    --text-muted: #6b5040;
+    --border: #d4b896;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--cream);
+    color: var(--text);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 300;
+    min-height: 100vh;
+    background-image: 
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+
+  header {
+    background: var(--brown-dark);
+    padding: 48px 32px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 120%, var(--brown-mid) 0%, transparent 70%);
+  }
+
+  header::after {
+    content: '✦';
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--cream);
+    font-size: 12px;
+    letter-spacing: 24px;
+  }
+
+  .header-eyebrow {
+    font-family: 'Source Serif 4', serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--amber-light);
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(32px, 6vw, 56px);
+    font-weight: 400;
+    color: var(--warm-white);
+    line-height: 1.1;
+    position: relative;
+    margin-bottom: 8px;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--amber-light);
+  }
+
+  .header-sub {
+    color: var(--amber-light);
+    font-size: 14px;
+    opacity: 0.7;
+    position: relative;
+    margin-top: 12px;
+    letter-spacing: 1px;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* CALCULATOR */
+  .calculator {
+    background: var(--brown-dark);
+    border-radius: 4px;
+    padding: 32px;
+    margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .calculator::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--amber), var(--amber-light), var(--amber));
+  }
+
+  .calc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--warm-white);
+    margin-bottom: 24px;
+    font-weight: 400;
+  }
+
+  .calc-control {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .calc-label {
+    color: var(--amber-light);
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    flex: 0 0 auto;
+  }
+
+  .counter {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(200,131,42,0.4);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .counter button {
+    background: none;
+    border: none;
+    color: var(--amber-light);
+    font-size: 22px;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-family: 'Playfair Display', serif;
+    line-height: 1;
+  }
+
+  .counter button:hover { background: rgba(200,131,42,0.2); }
+
+  .counter-value {
+    color: var(--warm-white);
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    width: 52px;
+    text-align: center;
+    font-weight: 700;
+  }
+
+  .calc-result {
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+  }
+
+  .ingredient-pill {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(200,131,42,0.25);
+    border-radius: 3px;
+    padding: 14px 16px;
+    transition: border-color 0.2s;
+  }
+
+  .ingredient-pill:hover { border-color: rgba(200,131,42,0.5); }
+
+  .pill-name {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--amber-light);
+    margin-bottom: 6px;
+    opacity: 0.8;
+  }
+
+  .pill-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--warm-white);
+    font-weight: 700;
+  }
+
+  .pill-unit {
+    font-size: 12px;
+    color: var(--amber-light);
+    margin-left: 2px;
+    opacity: 0.7;
+  }
+
+  /* SECTION DIVIDER */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 48px 0 28px;
+  }
+
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--brown-dark);
+    white-space: nowrap;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* STEPS */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 0 24px;
+    position: relative;
+    padding-bottom: 32px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: stepIn 0.4s ease forwards;
+  }
+
+  @keyframes stepIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .step:nth-child(1)  { animation-delay: 0.05s; }
+  .step:nth-child(2)  { animation-delay: 0.10s; }
+  .step:nth-child(3)  { animation-delay: 0.15s; }
+  .step:nth-child(4)  { animation-delay: 0.20s; }
+  .step:nth-child(5)  { animation-delay: 0.25s; }
+  .step:nth-child(6)  { animation-delay: 0.30s; }
+  .step:nth-child(7)  { animation-delay: 0.35s; }
+  .step:nth-child(8)  { animation-delay: 0.40s; }
+  .step:nth-child(9)  { animation-delay: 0.45s; }
+  .step:nth-child(10) { animation-delay: 0.50s; }
+  .step:nth-child(11) { animation-delay: 0.55s; }
+  .step:nth-child(12) { animation-delay: 0.60s; }
+  .step:nth-child(13) { animation-delay: 0.65s; }
+  .step:nth-child(14) { animation-delay: 0.70s; }
+  .step:nth-child(15) { animation-delay: 0.75s; }
+
+  .step-number-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--brown-dark);
+    color: var(--amber-light);
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-line {
+    width: 1px;
+    flex: 1;
+    background: var(--border);
+    margin-top: 8px;
+  }
+
+  .step:last-child .step-line { display: none; }
+
+  .step-content {
+    padding-top: 8px;
+  }
+
+  .step-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--brown-dark);
+    margin-bottom: 8px;
+  }
+
+  .step-text {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--text-muted);
+  }
+
+  .step-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    background: var(--amber);
+    color: white;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 2px;
+    font-weight: 400;
+  }
+
+  /* NOTES */
+  .notes-box {
+    margin-top: 48px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 32px;
+    background: var(--warm-white);
+    position: relative;
+  }
+
+  .notes-box::before {
+    content: '†';
+    position: absolute;
+    top: -14px;
+    left: 32px;
+    background: var(--warm-white);
+    padding: 0 8px;
+    font-size: 20px;
+    color: var(--amber);
+    font-family: 'Playfair Display', serif;
+  }
+
+  .notes-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    margin-bottom: 16px;
+    color: var(--brown-dark);
+  }
+
+  .note-item {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-muted);
+  }
+
+  .note-item:last-child { border-bottom: none; }
+
+  .note-item strong {
+    color: var(--brown-dark);
+    font-weight: 400;
+    font-style: italic;
+    font-family: 'Playfair Display', serif;
+  }
+
+  footer {
+    text-align: center;
+    padding: 32px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    opacity: 0.5;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 500px) {
+    .step { grid-template-columns: 40px 1fr; gap: 0 16px; }
+    .calculator { padding: 24px 20px; }
+    .calc-result { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* HYDRATION SLIDER */
+  .hydration-row {
+    margin-top: 24px;
+  }
+
+  .hydration-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .hydration-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--amber-light);
+  }
+
+  .slider-track {
+    position: relative;
+  }
+
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .slider-labels span {
+    font-size: 10px;
+    color: var(--amber-light);
+    opacity: 0.5;
+    letter-spacing: 0.5px;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--amber) 0%, var(--amber-light) 100%);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--warm-white);
+    border: 3px solid var(--amber);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    transition: transform 0.15s, border-color 0.15s;
+  }
+
+  input[type=range]::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    border-color: var(--amber-light);
+  }
+
+  input[type=range]::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--warm-white);
+    border: 3px solid var(--amber);
+    cursor: pointer;
+  }
+
+  .hydration-hint {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--amber-light);
+    opacity: 0.7;
+    font-style: italic;
+    letter-spacing: 0.5px;
+    min-height: 18px;
+    transition: opacity 0.2s;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-eyebrow">Håndverksoppskrift</div>
+  <h1>Surdeigsbrød<br><em>med spelt</em></h1>
+  <div class="header-sub" id="header-sub">68% hydrasjon &nbsp;·&nbsp; Lang kaldheving &nbsp;·&nbsp; Jerngryte</div>
+</header>
+
+<div class="container">
+
+  <!-- CALCULATOR -->
+  <div class="calculator">
+    <div class="calc-title">Beregning</div>
+
+    <div class="calc-control">
+      <span class="calc-label">Brød</span>
+      <div class="counter">
+        <button onclick="changeLoaves(-1)">−</button>
+        <div class="counter-value" id="loaves-display">1</div>
+        <button onclick="changeLoaves(1)">+</button>
+      </div>
+    </div>
+
+    <div class="hydration-row">
+      <div class="hydration-header">
+        <span class="calc-label">Hydrasjon</span>
+        <span class="hydration-value" id="hydration-display">68%</span>
+      </div>
+      <div class="slider-track">
+        <div class="slider-labels">
+          <span>60%</span>
+          <span>65%</span>
+          <span>70%</span>
+          <span>75%</span>
+          <span>80%</span>
+        </div>
+        <input type="range" id="hydration-slider" min="60" max="80" value="68" step="1" oninput="changeHydration(this.value)">
+        <div class="hydration-hint" id="hydration-hint">Stram og god til spelt</div>
+      </div>
+    </div>
+
+    <div class="calc-result" id="result"></div>
+  </div>
+
+  <!-- STEPS -->
+  <div class="section-header">
+    <h2>Fremgangsmåte</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-number-col"><div class="step-number">1</div><div class="step-line"></div></div>
+      <div class="step-content">
+        <div class="step-title">Bland starter og vann</div>
+        <div class="step-text">Visp starter og vann sammen i en stor bolle til starteren er oppløst og blandingen er jevn.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number-col"><div class="step-number">2</div><div class="step-line"></div></div>
+      <div class="step-content">
+        <div class="step-title">Autolyse</div>
+        <div class="step-text">Tilsett speltmelet og bland til alt mel er inkorporert — ingen tørre klumper. Dekk til og la hvile i 30 minutter.</div>
+        <div class="step-tag">⏱ 30 min</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number-col"><div class="step-number">3</div><div class="step-line"></div></div>
+      <div class="step-content">
+        <div class="step-title">Tilsett salt</div>
+        <div class="step-text">Tilsett saltet. Klem og fold det inn i deigen til det er jevnt fordelt, ca. 2–3 minutter.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number-col"><div class="step-number">4</div><div class="step-line"></div></div>
+      <div class="step-content">
+        <div class="step-title">Stretch and fold — 4 runder</div>
+        <div class="step-text">Ta tak i en side av deigen, strekk den opp og fold over til motsatt side. Gjør dette alle 4 sider = 1 runde. Dekk til og hvil 30 minutter mellom hver runde. Gjenta 4 ganger totalt.</div>
+        <div class="step-tag">⏱ 4 × 30 min</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number-col"><div class="step-number">5</div><div class="step-line"></div></div>
+      <div class="step-content">
+        <div class="step-title">Forform (pre-shape)</div>
+        <div class="step-text">Hvelv deigen ut på et umerlet underlag. Fold kantene inn mot midten — venstre, høyre, topp, bunn. Snu med skjøten ned. Dra deigen mot deg over benken et par ganger til du får en stram rund ball. La ligge åpent i 25 minutter.</div>
+        <div class="step-tag">⏱ 25 min</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number-col"><div class="step-number">6</div><div class="step-line"></div></div>
+      <div class="step-content">
+        <div class="step-title">Endelig forming</div>
+        <div class="step-text">Snu deigen med skjøten opp. Fold venstre tredjedel inn mot midten, høyre tredjedel over. Rull stramt mot deg fra toppen ned. Snu med skjøten ned og dra over benken igjen — overflaten skal føles veldig stram, nesten på bristepunktet.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number-col"><div class="step-number">7</div><div class="step-line"></div></div>
+      <div class="step-content">
+        <div class="step-title">Hevekurv og romtemperaturhev</div>
+        <div class="step-text">Mel hevekurven godt. Legg deigen med skjøten opp. Dekk med plastfolie og la stå i romtemperatur i 45 minutter.</div>
+        <div class="step-tag">⏱ 45 min</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number-col"><div class="step-number">8</div><div class="step-line"></div></div>
+      <div class="step-content">
+        <div class="step-title">Kaldheving</div>
+        <div class="step-text">Sett kurven i kjøleskapet i 10–12 timer. Opptil 16 timer gir enda mer smak.</div>
+        <div class="step-tag">⏱ 10–16 timer</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number-col"><div class="step-number">9</div><div class="step-line"></div></div>
+      <div class="step-content">
+        <div class="step-title">Forvarm ovn og jerngryte</div>
+        <div class="step-text">Sett jerngryta med lokk inn i kald ovn og varm opp til 250 °C. La gryta stå i ovnen i minimum 45 minutter etter at ovnen er varm.</div>
+        <div class="step-tag">⏱ 45 min</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number-col"><div class="step-number">10</div><div class="step-line"></div></div>
+      <div class="step-content">
+        <div class="step-title">Snittmerking og steking med lokk</div>
+        <div class="step-text">Ta deigen rett fra kjøleskapet — ikke la den varme seg opp. Hvelv ut av kurven på et bakepapir. Snitt raskt med et barberblad i 45° vinkel, ca. 1 cm dypt. Løft ned i den glohete gryta med bakepapiret. Lokk på. Stek i 20 minutter.</div>
+        <div class="step-tag">⏱ 20 min · 250 °C</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number-col"><div class="step-number">11</div><div class="step-line"></div></div>
+      <div class="step-content">
+        <div class="step-title">Steking uten lokk</div>
+        <div class="step-text">Ta av lokket og senk temperaturen til 220 °C. Stek videre i 20–25 minutter til skorpen er dyp gyllenbrun og brødet høres hult ut når du banker på undersiden.</div>
+        <div class="step-tag">⏱ 20–25 min · 220 °C</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number-col"><div class="step-number">12</div><div class="step-line"></div></div>
+      <div class="step-content">
+        <div class="step-title">Avkjøling</div>
+        <div class="step-text">La brødet avkjøle på en rist i minimum 1 time før du skjærer i det. Innsiden er fortsatt under utvikling — skjærer du for tidlig blir krummen klissete.</div>
+        <div class="step-tag">⏱ min. 1 time</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- NOTES -->
+  <div class="notes-box">
+    <div class="notes-title">Merknader</div>
+    <div class="note-item"><strong>Poke-testen</strong> — Stikk forsiktig en finger i deigen før steking. Spretter sakte tilbake og etterlater en liten bulk: stek nå. Spretter raskt tilbake: la den stå litt til. Spretter ikke tilbake: stek umiddelbart.</div>
+    <div class="note-item"><strong>Spelt</strong> — Fermenterer raskere enn vanlig hvete. Hvis kjøkkenet er over 22 °C, kutt stretch and fold til 3 runder.</div>
+    <div class="note-item"><strong>Snittvinkel</strong> — Hold bladet i 45° vinkel, ikke rett ned. Et skrått snitt gir løft; et rett snitt gir bare et hull.</div>
+
+  </div>
+
+</div>
+
+<footer id="footer-text">Surdeigsbrød med spelt &nbsp;·&nbsp; 68% hydrasjon</footer>
+
+<script>
+  let loaves = 1;
+  let hydration = 68;
+
+  const FLOUR = 500;
+  const STARTER = 100;
+  const SALT = 10;
+
+  // Starter is 100% hydration: half water, half flour
+  const STARTER_WATER = STARTER * 0.5;
+  const STARTER_FLOUR = STARTER * 0.5;
+
+  const HINTS = {
+    60: 'Meget stram — tett krumme, lett å forme',
+    61: 'Meget stram — tett krumme, lett å forme',
+    62: 'Stram — god kontroll, kompakt brød',
+    63: 'Stram — god kontroll, kompakt brød',
+    64: 'Stram og god til spelt',
+    65: 'Stram og god til spelt',
+    66: 'Balansert — fin struktur og smak',
+    67: 'Balansert — fin struktur og smak',
+    68: 'Balansert — fin struktur og smak',
+    69: 'Litt løsere — åpnere krumme',
+    70: 'Litt løsere — åpnere krumme',
+    71: 'Løs deig — krever god glutenstruktur',
+    72: 'Løs deig — krever god glutenstruktur',
+    73: 'Krevende å forme — vær forsiktig med spelt',
+    74: 'Krevende å forme — vær forsiktig med spelt',
+    75: 'Høy hydrasjon — veldig åpen krumme',
+    76: 'Høy hydrasjon — veldig åpen krumme',
+    77: 'Svært løs — for erfarne bakere',
+    78: 'Svært løs — for erfarne bakere',
+    79: 'Ekstremt løs — risikabelt med spelt',
+    80: 'Ekstremt løs — risikabelt med spelt',
+  };
+
+  function changeLoaves(delta) {
+    loaves = Math.max(1, Math.min(20, loaves + delta));
+    document.getElementById('loaves-display').textContent = loaves;
+    render();
+  }
+
+  function changeHydration(val) {
+    hydration = parseInt(val);
+    document.getElementById('hydration-display').textContent = hydration + '%';
+    document.getElementById('hydration-hint').textContent = HINTS[hydration] || '';
+    document.getElementById('header-sub').innerHTML = hydration + '% hydrasjon &nbsp;·&nbsp; Lang kaldheving &nbsp;·&nbsp; Jerngryte';
+    document.getElementById('footer-text').innerHTML = 'Surdeigsbrød med spelt &nbsp;·&nbsp; ' + hydration + '% hydrasjon';
+    render();
+  }
+
+  function render() {
+    const water = FLOUR * (hydration / 100);
+
+    const items = [
+      { name: 'Starter',  amount: STARTER },
+      { name: 'Vann',     amount: water },
+      { name: 'Speltmel', amount: FLOUR },
+      { name: 'Salt',     amount: SALT },
+    ];
+
+    document.getElementById('result').innerHTML = items.map(item => {
+      const total = item.amount * loaves;
+      const [num, unit] = total >= 1000
+        ? [(total / 1000).toFixed(2).replace(/\.?0+$/, ''), 'kg']
+        : [Math.round(total), 'g'];
+      return `
+        <div class="ingredient-pill">
+          <div class="pill-name">${item.name}</div>
+          <div class="pill-amount">${num}<span class="pill-unit">${unit}</span></div>
+        </div>`;
+    }).join('');
+  }
+
+  render();
+</script>
+</body>
+</html>
