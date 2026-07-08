@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Surdeigsbrød med Spelt</title>
+<title>Surdeigsbrød med spelt</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -28,7 +28,7 @@
     font-family: 'Source Serif 4', Georgia, serif;
     font-weight: 300;
     min-height: 100vh;
-    background-image: 
+    background-image:
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
   }
 
@@ -91,6 +91,49 @@
     margin-top: 12px;
     letter-spacing: 1px;
   }
+
+  /* TOGGLE BAR */
+  .toggle-bar {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 22px;
+    position: relative;
+    flex-wrap: wrap;
+  }
+
+  .toggle-group {
+    display: flex;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(200,131,42,0.25);
+    border-radius: 20px;
+    padding: 3px;
+    gap: 2px;
+  }
+
+  .toggle-btn {
+    background: none;
+    border: none;
+    color: var(--amber-light);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 5px 13px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, opacity 0.15s;
+    font-family: 'Source Serif 4', serif;
+    opacity: 0.45;
+    white-space: nowrap;
+  }
+
+  .toggle-btn.active {
+    background: var(--amber);
+    color: white;
+    opacity: 1;
+  }
+
+  .toggle-btn:not(.active):hover { opacity: 0.75; }
 
   .container {
     max-width: 860px;
@@ -257,22 +300,6 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .step:nth-child(1)  { animation-delay: 0.05s; }
-  .step:nth-child(2)  { animation-delay: 0.10s; }
-  .step:nth-child(3)  { animation-delay: 0.15s; }
-  .step:nth-child(4)  { animation-delay: 0.20s; }
-  .step:nth-child(5)  { animation-delay: 0.25s; }
-  .step:nth-child(6)  { animation-delay: 0.30s; }
-  .step:nth-child(7)  { animation-delay: 0.35s; }
-  .step:nth-child(8)  { animation-delay: 0.40s; }
-  .step:nth-child(9)  { animation-delay: 0.45s; }
-  .step:nth-child(10) { animation-delay: 0.50s; }
-  .step:nth-child(11) { animation-delay: 0.55s; }
-  .step:nth-child(12) { animation-delay: 0.60s; }
-  .step:nth-child(13) { animation-delay: 0.65s; }
-  .step:nth-child(14) { animation-delay: 0.70s; }
-  .step:nth-child(15) { animation-delay: 0.75s; }
-
   .step-number-col {
     display: flex;
     flex-direction: column;
@@ -305,9 +332,7 @@
 
   .step:last-child .step-line { display: none; }
 
-  .step-content {
-    padding-top: 8px;
-  }
+  .step-content { padding-top: 8px; }
 
   .step-title {
     font-family: 'Playfair Display', serif;
@@ -399,12 +424,12 @@
     .step { grid-template-columns: 40px 1fr; gap: 0 16px; }
     .calculator { padding: 24px 20px; }
     .calc-result { grid-template-columns: 1fr 1fr; }
+    .toggle-bar { gap: 8px; }
+    .toggle-btn { padding: 5px 10px; font-size: 9px; }
   }
 
   /* HYDRATION SLIDER */
-  .hydration-row {
-    margin-top: 24px;
-  }
+  .hydration-row { margin-top: 24px; }
 
   .hydration-header {
     display: flex;
@@ -420,9 +445,7 @@
     color: var(--amber-light);
   }
 
-  .slider-track {
-    position: relative;
-  }
+  .slider-track { position: relative; }
 
   .slider-labels {
     display: flex;
@@ -490,19 +513,33 @@
 <body>
 
 <header>
-  <div class="header-eyebrow">Håndverksoppskrift</div>
-  <h1>Surdeigsbrød<br><em>med spelt</em></h1>
-  <div class="header-sub" id="header-sub">68% hydrasjon &nbsp;·&nbsp; Lang kaldheving &nbsp;·&nbsp; Jerngryte</div>
+  <div class="header-eyebrow" id="eyebrow"></div>
+  <h1 id="title-h1"></h1>
+  <div class="header-sub" id="header-sub"></div>
+
+  <div class="toggle-bar">
+    <div class="toggle-group">
+      <button class="toggle-btn active" data-lang="no" onclick="setLang('no')">NO</button>
+      <button class="toggle-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+    <div class="toggle-group">
+      <button class="toggle-btn active" data-flour="spelt" onclick="setFlour('spelt')"></button>
+      <button class="toggle-btn" data-flour="regular" onclick="setFlour('regular')"></button>
+    </div>
+    <div class="toggle-group">
+      <button class="toggle-btn active" data-units="metric" onclick="setUnits('metric')">g · °C</button>
+      <button class="toggle-btn" data-units="imperial" onclick="setUnits('imperial')">oz · °F</button>
+    </div>
+  </div>
 </header>
 
 <div class="container">
 
-  <!-- CALCULATOR -->
   <div class="calculator">
-    <div class="calc-title">Beregning</div>
+    <div class="calc-title" id="calc-title"></div>
 
     <div class="calc-control">
-      <span class="calc-label">Brød</span>
+      <span class="calc-label" id="label-loaves"></span>
       <div class="counter">
         <button onclick="changeLoaves(-1)">−</button>
         <div class="counter-value" id="loaves-display">1</div>
@@ -512,7 +549,7 @@
 
     <div class="hydration-row">
       <div class="hydration-header">
-        <span class="calc-label">Hydrasjon</span>
+        <span class="calc-label" id="label-hydration"></span>
         <span class="hydration-value" id="hydration-display">68%</span>
       </div>
       <div class="slider-track">
@@ -524,216 +561,458 @@
           <span>80%</span>
         </div>
         <input type="range" id="hydration-slider" min="60" max="80" value="68" step="1" oninput="changeHydration(this.value)">
-        <div class="hydration-hint" id="hydration-hint">Stram og god til spelt</div>
+        <div class="hydration-hint" id="hydration-hint"></div>
       </div>
     </div>
 
     <div class="calc-result" id="result"></div>
   </div>
 
-  <!-- STEPS -->
   <div class="section-header">
-    <h2>Fremgangsmåte</h2>
+    <h2 id="section-title"></h2>
     <div class="section-line"></div>
   </div>
 
-  <div class="steps">
+  <div class="steps" id="steps-container"></div>
 
-    <div class="step">
-      <div class="step-number-col"><div class="step-number">1</div><div class="step-line"></div></div>
-      <div class="step-content">
-        <div class="step-title">Bland starter og vann</div>
-        <div class="step-text">Visp starter og vann sammen i en stor bolle til starteren er oppløst og blandingen er jevn.</div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-number-col"><div class="step-number">2</div><div class="step-line"></div></div>
-      <div class="step-content">
-        <div class="step-title">Autolyse</div>
-        <div class="step-text">Tilsett speltmelet og bland til alt mel er inkorporert — ingen tørre klumper. Dekk til og la hvile i 30 minutter.</div>
-        <div class="step-tag">⏱ 30 min</div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-number-col"><div class="step-number">3</div><div class="step-line"></div></div>
-      <div class="step-content">
-        <div class="step-title">Tilsett salt</div>
-        <div class="step-text">Tilsett saltet. Klem og fold det inn i deigen til det er jevnt fordelt, ca. 2–3 minutter.</div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-number-col"><div class="step-number">4</div><div class="step-line"></div></div>
-      <div class="step-content">
-        <div class="step-title">Stretch and fold — 4 runder</div>
-        <div class="step-text">Ta tak i en side av deigen, strekk den opp og fold over til motsatt side. Gjør dette alle 4 sider = 1 runde. Dekk til og hvil 30 minutter mellom hver runde. Gjenta 4 ganger totalt.</div>
-        <div class="step-tag">⏱ 4 × 30 min</div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-number-col"><div class="step-number">5</div><div class="step-line"></div></div>
-      <div class="step-content">
-        <div class="step-title">Forform (pre-shape)</div>
-        <div class="step-text">Hvelv deigen ut på et umerlet underlag. Fold kantene inn mot midten — venstre, høyre, topp, bunn. Snu med skjøten ned. Dra deigen mot deg over benken et par ganger til du får en stram rund ball. La ligge åpent i 25 minutter.</div>
-        <div class="step-tag">⏱ 25 min</div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-number-col"><div class="step-number">6</div><div class="step-line"></div></div>
-      <div class="step-content">
-        <div class="step-title">Endelig forming</div>
-        <div class="step-text">Snu deigen med skjøten opp. Fold venstre tredjedel inn mot midten, høyre tredjedel over. Rull stramt mot deg fra toppen ned. Snu med skjøten ned og dra over benken igjen — overflaten skal føles veldig stram, nesten på bristepunktet.</div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-number-col"><div class="step-number">7</div><div class="step-line"></div></div>
-      <div class="step-content">
-        <div class="step-title">Hevekurv og romtemperaturhev</div>
-        <div class="step-text">Mel hevekurven godt. Legg deigen med skjøten opp. Dekk med plastfolie og la stå i romtemperatur i 45 minutter.</div>
-        <div class="step-tag">⏱ 45 min</div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-number-col"><div class="step-number">8</div><div class="step-line"></div></div>
-      <div class="step-content">
-        <div class="step-title">Kaldheving</div>
-        <div class="step-text">Sett kurven i kjøleskapet i 10–12 timer. Opptil 16 timer gir enda mer smak.</div>
-        <div class="step-tag">⏱ 10–16 timer</div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-number-col"><div class="step-number">9</div><div class="step-line"></div></div>
-      <div class="step-content">
-        <div class="step-title">Forvarm ovn og jerngryte</div>
-        <div class="step-text">Sett jerngryta med lokk inn i kald ovn og varm opp til 250 °C. La gryta stå i ovnen i minimum 45 minutter etter at ovnen er varm.</div>
-        <div class="step-tag">⏱ 45 min</div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-number-col"><div class="step-number">10</div><div class="step-line"></div></div>
-      <div class="step-content">
-        <div class="step-title">Snittmerking og steking med lokk</div>
-        <div class="step-text">Ta deigen rett fra kjøleskapet — ikke la den varme seg opp. Hvelv ut av kurven på et bakepapir. Snitt raskt med et barberblad i 45° vinkel, ca. 1 cm dypt. Løft ned i den glohete gryta med bakepapiret. Lokk på. Stek i 20 minutter.</div>
-        <div class="step-tag">⏱ 20 min · 250 °C</div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-number-col"><div class="step-number">11</div><div class="step-line"></div></div>
-      <div class="step-content">
-        <div class="step-title">Steking uten lokk</div>
-        <div class="step-text">Ta av lokket og senk temperaturen til 220 °C. Stek videre i 20–25 minutter til skorpen er dyp gyllenbrun og brødet høres hult ut når du banker på undersiden.</div>
-        <div class="step-tag">⏱ 20–25 min · 220 °C</div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-number-col"><div class="step-number">12</div><div class="step-line"></div></div>
-      <div class="step-content">
-        <div class="step-title">Avkjøling</div>
-        <div class="step-text">La brødet avkjøle på en rist i minimum 1 time før du skjærer i det. Innsiden er fortsatt under utvikling — skjærer du for tidlig blir krummen klissete.</div>
-        <div class="step-tag">⏱ min. 1 time</div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- NOTES -->
   <div class="notes-box">
-    <div class="notes-title">Merknader</div>
-    <div class="note-item"><strong>Poke-testen</strong> — Stikk forsiktig en finger i deigen før steking. Spretter sakte tilbake og etterlater en liten bulk: stek nå. Spretter raskt tilbake: la den stå litt til. Spretter ikke tilbake: stek umiddelbart.</div>
-    <div class="note-item"><strong>Spelt</strong> — Fermenterer raskere enn vanlig hvete. Hvis kjøkkenet er over 22 °C, kutt stretch and fold til 3 runder.</div>
-    <div class="note-item"><strong>Snittvinkel</strong> — Hold bladet i 45° vinkel, ikke rett ned. Et skrått snitt gir løft; et rett snitt gir bare et hull.</div>
-
+    <div class="notes-title" id="notes-title"></div>
+    <div id="notes-container"></div>
   </div>
 
 </div>
 
-<footer id="footer-text">Surdeigsbrød med spelt &nbsp;·&nbsp; 68% hydrasjon</footer>
+<footer id="footer-text"></footer>
 
 <script>
   let loaves = 1;
   let hydration = 68;
+  let lang = 'no';
+  let flour = 'spelt';
+  let units = 'metric';
 
-  const FLOUR = 500;
+  const FLOUR_BASE = 500;
   const STARTER = 100;
   const SALT = 10;
 
-  // Starter is 100% hydration: half water, half flour
-  const STARTER_WATER = STARTER * 0.5;
-  const STARTER_FLOUR = STARTER * 0.5;
-
-  const HINTS = {
-    60: 'Meget stram — tett krumme, lett å forme',
-    61: 'Meget stram — tett krumme, lett å forme',
-    62: 'Stram — god kontroll, kompakt brød',
-    63: 'Stram — god kontroll, kompakt brød',
-    64: 'Stram og god til spelt',
-    65: 'Stram og god til spelt',
-    66: 'Balansert — fin struktur og smak',
-    67: 'Balansert — fin struktur og smak',
-    68: 'Balansert — fin struktur og smak',
-    69: 'Litt løsere — åpnere krumme',
-    70: 'Litt løsere — åpnere krumme',
-    71: 'Løs deig — krever god glutenstruktur',
-    72: 'Løs deig — krever god glutenstruktur',
-    73: 'Krevende å forme — vær forsiktig med spelt',
-    74: 'Krevende å forme — vær forsiktig med spelt',
-    75: 'Høy hydrasjon — veldig åpen krumme',
-    76: 'Høy hydrasjon — veldig åpen krumme',
-    77: 'Svært løs — for erfarne bakere',
-    78: 'Svært løs — for erfarne bakere',
-    79: 'Ekstremt løs — risikabelt med spelt',
-    80: 'Ekstremt løs — risikabelt med spelt',
+  const TEMPS = {
+    metric:   { high: '250 °C', low: '220 °C', depth: '1 cm' },
+    imperial: { high: '480 °F', low: '425 °F', depth: '½ inch' },
   };
+
+  const C = {
+    no: {
+      eyebrow: 'Håndverksoppskrift',
+      title: {
+        spelt:   'Surdeigsbrød<br><em>med spelt</em>',
+        regular: 'Surdeigsbrød<br><em>med hvetemel</em>',
+      },
+      docTitle: {
+        spelt:   'Surdeigsbrød med spelt',
+        regular: 'Surdeigsbrød med hvetemel',
+      },
+      headerSub: (h) => `${h}% hydrasjon &nbsp;·&nbsp; Lang kaldheving &nbsp;·&nbsp; Jerngryte`,
+      calcTitle: 'Beregning',
+      labelLoaves: 'Brød',
+      labelHydration: 'Hydrasjon',
+      sectionTitle: 'Fremgangsmåte',
+      notesTitle: 'Merknader',
+      footer: (h, f) => `Surdeigsbrød med ${f === 'spelt' ? 'spelt' : 'hvetemel'} &nbsp;·&nbsp; ${h}% hydrasjon`,
+      toggleFlour: { spelt: 'Spelt', regular: 'Hvetemel' },
+      ingredientNames: (f) => ({
+        starter: 'Starter',
+        water:   'Vann',
+        flour:   f === 'spelt' ? 'Speltmel' : 'Hvetemel',
+        salt:    'Salt',
+      }),
+      hints: {
+        spelt: {
+          60: 'Meget stram — tett krumme, lett å forme',
+          61: 'Meget stram — tett krumme, lett å forme',
+          62: 'Stram — god kontroll, kompakt brød',
+          63: 'Stram — god kontroll, kompakt brød',
+          64: 'Stram og god til spelt',
+          65: 'Stram og god til spelt',
+          66: 'Balansert — fin struktur og smak',
+          67: 'Balansert — fin struktur og smak',
+          68: 'Balansert — fin struktur og smak',
+          69: 'Litt løsere — åpnere krumme',
+          70: 'Litt løsere — åpnere krumme',
+          71: 'Løs deig — krever god glutenstruktur',
+          72: 'Løs deig — krever god glutenstruktur',
+          73: 'Krevende å forme — vær forsiktig med spelt',
+          74: 'Krevende å forme — vær forsiktig med spelt',
+          75: 'Høy hydrasjon — veldig åpen krumme',
+          76: 'Høy hydrasjon — veldig åpen krumme',
+          77: 'Svært løs — for erfarne bakere',
+          78: 'Svært løs — for erfarne bakere',
+          79: 'Ekstremt løs — risikabelt med spelt',
+          80: 'Ekstremt løs — risikabelt med spelt',
+        },
+        regular: {
+          60: 'Meget stram — tett krumme, lett å forme',
+          61: 'Meget stram — tett krumme, lett å forme',
+          62: 'Stram — god kontroll, kompakt brød',
+          63: 'Stram — god kontroll, kompakt brød',
+          64: 'Stram og god',
+          65: 'Stram og god',
+          66: 'Balansert — fin struktur og smak',
+          67: 'Balansert — fin struktur og smak',
+          68: 'Balansert — fin struktur og smak',
+          69: 'Litt løsere — åpnere krumme',
+          70: 'Litt løsere — åpnere krumme',
+          71: 'Løs deig — krever god glutenstruktur',
+          72: 'Løs deig — krever god glutenstruktur',
+          73: 'Krevende å forme',
+          74: 'Krevende å forme',
+          75: 'Høy hydrasjon — veldig åpen krumme',
+          76: 'Høy hydrasjon — veldig åpen krumme',
+          77: 'Svært løs — for erfarne bakere',
+          78: 'Svært løs — for erfarne bakere',
+          79: 'Ekstremt løs — vær forsiktig',
+          80: 'Ekstremt løs — vær forsiktig',
+        },
+      },
+      steps: (f, t) => [
+        {
+          title: 'Bland starter og vann',
+          text:  'Visp starter og vann sammen i en stor bolle til starteren er oppløst og blandingen er jevn.',
+        },
+        {
+          title: 'Autolyse',
+          text:  `Tilsett ${f === 'spelt' ? 'speltmelet' : 'hvetemel'} og bland til alt mel er inkorporert — ingen tørre klumper. Dekk til og la hvile i 30 minutter.`,
+          tag:   '⏱ 30 min',
+        },
+        {
+          title: 'Tilsett salt',
+          text:  'Tilsett saltet. Klem og fold det inn i deigen til det er jevnt fordelt, ca. 2–3 minutter.',
+        },
+        {
+          title: 'Stretch and fold — 4 runder',
+          text:  'Ta tak i en side av deigen, strekk den opp og fold over til motsatt side. Gjør dette alle 4 sider = 1 runde. Dekk til og hvil 30 minutter mellom hver runde. Gjenta 4 ganger totalt.',
+          tag:   '⏱ 4 × 30 min',
+        },
+        {
+          title: 'Forform (pre-shape)',
+          text:  'Hvelv deigen ut på et umerlet underlag. Fold kantene inn mot midten — venstre, høyre, topp, bunn. Snu med skjøten ned. Dra deigen mot deg over benken et par ganger til du får en stram rund ball. La ligge åpent i 25 minutter.',
+          tag:   '⏱ 25 min',
+        },
+        {
+          title: 'Endelig forming',
+          text:  'Snu deigen med skjøten opp. Fold venstre tredjedel inn mot midten, høyre tredjedel over. Rull stramt mot deg fra toppen ned. Snu med skjøten ned og dra over benken igjen — overflaten skal føles veldig stram, nesten på bristepunktet.',
+        },
+        {
+          title: 'Hevekurv og romtemperaturhev',
+          text:  'Mel hevekurven godt. Legg deigen med skjøten opp. Dekk med plastfolie og la stå i romtemperatur i 45 minutter.',
+          tag:   '⏱ 45 min',
+        },
+        {
+          title: 'Kaldheving',
+          text:  'Sett kurven i kjøleskapet i 10–12 timer. Opptil 16 timer gir enda mer smak.',
+          tag:   '⏱ 10–16 timer',
+        },
+        {
+          title: 'Forvarm ovn og jerngryte',
+          text:  `Sett jerngryta med lokk inn i kald ovn og varm opp til ${t.high}. La gryta stå i ovnen i minimum 45 minutter etter at ovnen er varm.`,
+          tag:   '⏱ 45 min',
+        },
+        {
+          title: 'Snittmerking og steking med lokk',
+          text:  `Ta deigen rett fra kjøleskapet — ikke la den varme seg opp. Hvelv ut av kurven på et bakepapir. Snitt raskt med et barberblad i 45° vinkel, ca. ${t.depth} dypt. Løft ned i den glohete gryta med bakepapiret. Lokk på. Stek i 20 minutter.`,
+          tag:   `⏱ 20 min · ${t.high}`,
+        },
+        {
+          title: 'Steking uten lokk',
+          text:  `Ta av lokket og senk temperaturen til ${t.low}. Stek videre i 20–25 minutter til skorpen er dyp gyllenbrun og brødet høres hult ut når du banker på undersiden.`,
+          tag:   `⏱ 20–25 min · ${t.low}`,
+        },
+        {
+          title: 'Avkjøling',
+          text:  'La brødet avkjøle på en rist i minimum 1 time før du skjærer i det. Innsiden er fortsatt under utvikling — skjærer du for tidlig blir krummen klissete.',
+          tag:   '⏱ min. 1 time',
+        },
+      ],
+      notes: (f) => [
+        {
+          title: 'Poke-testen',
+          text:  'Stikk forsiktig en finger i deigen før steking. Spretter sakte tilbake og etterlater en liten bulk: stek nå. Spretter raskt tilbake: la den stå litt til. Spretter ikke tilbake: stek umiddelbart.',
+        },
+        f === 'spelt'
+          ? { title: 'Spelt', text: 'Fermenterer raskere enn vanlig hvete. Hvis kjøkkenet er over 22 °C, kutt stretch and fold til 3 runder.' }
+          : { title: 'Hvetemel', text: 'Hvetemel tåler høyere hydrasjon og er mer robust. I et varmt kjøkken kan du beholde alle 4 runder med stretch and fold.' },
+        {
+          title: 'Snittvinkel',
+          text:  'Hold bladet i 45° vinkel, ikke rett ned. Et skrått snitt gir løft; et rett snitt gir bare et hull.',
+        },
+      ],
+    },
+
+    en: {
+      eyebrow: 'Artisan Recipe',
+      title: {
+        spelt:   'Sourdough Bread<br><em>with spelt</em>',
+        regular: 'Sourdough Bread<br><em>with bread flour</em>',
+      },
+      docTitle: {
+        spelt:   'Sourdough Bread with Spelt',
+        regular: 'Sourdough Bread with Bread Flour',
+      },
+      headerSub: (h) => `${h}% hydration &nbsp;·&nbsp; Long cold proof &nbsp;·&nbsp; Dutch oven`,
+      calcTitle: 'Calculator',
+      labelLoaves: 'Loaves',
+      labelHydration: 'Hydration',
+      sectionTitle: 'Instructions',
+      notesTitle: 'Notes',
+      footer: (h, f) => `Sourdough with ${f === 'spelt' ? 'spelt' : 'bread flour'} &nbsp;·&nbsp; ${h}% hydration`,
+      toggleFlour: { spelt: 'Spelt', regular: 'Bread flour' },
+      ingredientNames: (f) => ({
+        starter: 'Starter',
+        water:   'Water',
+        flour:   f === 'spelt' ? 'Spelt flour' : 'Bread flour',
+        salt:    'Salt',
+      }),
+      hints: {
+        spelt: {
+          60: 'Very stiff — tight crumb, easy to shape',
+          61: 'Very stiff — tight crumb, easy to shape',
+          62: 'Stiff — good control, compact loaf',
+          63: 'Stiff — good control, compact loaf',
+          64: 'Firm and forgiving with spelt',
+          65: 'Firm and forgiving with spelt',
+          66: 'Balanced — good structure and flavor',
+          67: 'Balanced — good structure and flavor',
+          68: 'Balanced — good structure and flavor',
+          69: 'Slightly looser — more open crumb',
+          70: 'Slightly looser — more open crumb',
+          71: 'Slack dough — needs good gluten structure',
+          72: 'Slack dough — needs good gluten structure',
+          73: 'Challenging to shape — take care with spelt',
+          74: 'Challenging to shape — take care with spelt',
+          75: 'High hydration — very open crumb',
+          76: 'High hydration — very open crumb',
+          77: 'Very slack — for experienced bakers',
+          78: 'Very slack — for experienced bakers',
+          79: 'Extremely slack — risky with spelt',
+          80: 'Extremely slack — risky with spelt',
+        },
+        regular: {
+          60: 'Very stiff — tight crumb, easy to shape',
+          61: 'Very stiff — tight crumb, easy to shape',
+          62: 'Stiff — good control, compact loaf',
+          63: 'Stiff — good control, compact loaf',
+          64: 'Firm and forgiving',
+          65: 'Firm and forgiving',
+          66: 'Balanced — good structure and flavor',
+          67: 'Balanced — good structure and flavor',
+          68: 'Balanced — good structure and flavor',
+          69: 'Slightly looser — more open crumb',
+          70: 'Slightly looser — more open crumb',
+          71: 'Slack dough — needs good structure',
+          72: 'Slack dough — needs good structure',
+          73: 'Challenging to shape',
+          74: 'Challenging to shape',
+          75: 'High hydration — very open crumb',
+          76: 'High hydration — very open crumb',
+          77: 'Very slack — for experienced bakers',
+          78: 'Very slack — for experienced bakers',
+          79: 'Extremely slack — proceed with care',
+          80: 'Extremely slack — proceed with care',
+        },
+      },
+      steps: (f, t) => [
+        {
+          title: 'Mix starter and water',
+          text:  'Whisk the starter and water together in a large bowl until the starter is dissolved and the mixture is smooth.',
+        },
+        {
+          title: 'Autolyse',
+          text:  `Add the ${f === 'spelt' ? 'spelt' : 'bread'} flour and mix until all flour is incorporated — no dry clumps. Cover and rest for 30 minutes.`,
+          tag:   '⏱ 30 min',
+        },
+        {
+          title: 'Add salt',
+          text:  'Add the salt. Pinch and fold it into the dough until evenly distributed, about 2–3 minutes.',
+        },
+        {
+          title: 'Stretch and fold — 4 rounds',
+          text:  'Grab one side of the dough, stretch it up and fold over to the opposite side. Do this on all 4 sides = 1 round. Cover and rest 30 minutes between each round. Repeat 4 times total.',
+          tag:   '⏱ 4 × 30 min',
+        },
+        {
+          title: 'Pre-shape',
+          text:  'Turn the dough out onto an unfloured surface. Fold the edges in toward the center — left, right, top, bottom. Flip seam-side down. Drag the dough toward you across the counter a couple of times to build a tight round ball. Leave uncovered for 25 minutes.',
+          tag:   '⏱ 25 min',
+        },
+        {
+          title: 'Final shaping',
+          text:  'Flip the dough seam-side up. Fold the left third toward the center, the right third over. Roll tightly toward you from the top down. Flip seam-side down and drag across the counter again — the surface should feel very taut, almost at the breaking point.',
+        },
+        {
+          title: 'Banneton and room-temperature proof',
+          text:  'Flour the banneton well. Place the dough seam-side up. Cover with plastic wrap and leave at room temperature for 45 minutes.',
+          tag:   '⏱ 45 min',
+        },
+        {
+          title: 'Cold proof',
+          text:  'Place the banneton in the refrigerator for 10–12 hours. Up to 16 hours develops even more flavor.',
+          tag:   '⏱ 10–16 hours',
+        },
+        {
+          title: 'Preheat oven and Dutch oven',
+          text:  `Place the Dutch oven with lid in a cold oven and heat to ${t.high}. Leave it in the oven for at least 45 minutes after reaching temperature.`,
+          tag:   '⏱ 45 min',
+        },
+        {
+          title: 'Score and bake covered',
+          text:  `Take the dough straight from the refrigerator — do not let it warm up. Turn it out of the banneton onto parchment paper. Score quickly with a razor blade at a 45° angle, about ${t.depth} deep. Lower into the blazing hot Dutch oven on the parchment. Lid on. Bake for 20 minutes.`,
+          tag:   `⏱ 20 min · ${t.high}`,
+        },
+        {
+          title: 'Bake uncovered',
+          text:  `Remove the lid and lower the temperature to ${t.low}. Bake for another 20–25 minutes until the crust is deep golden brown and the loaf sounds hollow when tapped on the bottom.`,
+          tag:   `⏱ 20–25 min · ${t.low}`,
+        },
+        {
+          title: 'Cool',
+          text:  'Let the bread cool on a wire rack for at least 1 hour before slicing. The interior is still setting — cutting too early makes the crumb gummy.',
+          tag:   '⏱ min. 1 hour',
+        },
+      ],
+      notes: (f) => [
+        {
+          title: 'Poke test',
+          text:  "Gently poke the dough before baking. Springs back slowly and leaves a small indent: bake now. Springs back quickly: leave it a bit longer. Doesn't spring back: bake immediately.",
+        },
+        f === 'spelt'
+          ? { title: 'Spelt', text: 'Ferments faster than regular wheat. If your kitchen is above 22 °C / 72 °F, cut stretch and fold to 3 rounds.' }
+          : { title: 'Bread flour', text: 'Bread flour is more forgiving and handles higher hydration well. In a warm kitchen, the full 4 rounds of stretch and fold are fine.' },
+        {
+          title: 'Score angle',
+          text:  'Hold the blade at a 45° angle, not straight down. An angled score gives lift; a straight score just makes a hole.',
+        },
+      ],
+    },
+  };
+
+  // ── State setters ──────────────────────────────────────────────
+
+  function setLang(l)  { lang  = l; renderAll(); }
+  function setFlour(f) { flour = f; renderAll(); }
+  function setUnits(u) { units = u; renderAll(); }
 
   function changeLoaves(delta) {
     loaves = Math.max(1, Math.min(20, loaves + delta));
     document.getElementById('loaves-display').textContent = loaves;
-    render();
+    renderIngredients();
   }
 
   function changeHydration(val) {
     hydration = parseInt(val);
     document.getElementById('hydration-display').textContent = hydration + '%';
-    document.getElementById('hydration-hint').textContent = HINTS[hydration] || '';
-    document.getElementById('header-sub').innerHTML = hydration + '% hydrasjon &nbsp;·&nbsp; Lang kaldheving &nbsp;·&nbsp; Jerngryte';
-    document.getElementById('footer-text').innerHTML = 'Surdeigsbrød med spelt &nbsp;·&nbsp; ' + hydration + '% hydrasjon';
-    render();
+    updateMeta();
+    renderIngredients();
   }
 
-  function render() {
-    const water = FLOUR * (hydration / 100);
+  // ── Render functions ───────────────────────────────────────────
+
+  function renderAll() {
+    updateToggles();
+    updateMeta();
+    updateSteps();
+    updateNotes();
+    renderIngredients();
+  }
+
+  function updateToggles() {
+    const c = C[lang];
+    document.querySelectorAll('[data-lang]').forEach(b =>
+      b.classList.toggle('active', b.dataset.lang === lang));
+    document.querySelectorAll('[data-flour]').forEach(b => {
+      b.classList.toggle('active', b.dataset.flour === flour);
+      b.textContent = c.toggleFlour[b.dataset.flour];
+    });
+    document.querySelectorAll('[data-units]').forEach(b =>
+      b.classList.toggle('active', b.dataset.units === units));
+  }
+
+  function updateMeta() {
+    const c = C[lang];
+    document.documentElement.lang = lang;
+    document.title = c.docTitle[flour];
+    document.getElementById('eyebrow').textContent         = c.eyebrow;
+    document.getElementById('title-h1').innerHTML          = c.title[flour];
+    document.getElementById('header-sub').innerHTML        = c.headerSub(hydration);
+    document.getElementById('calc-title').textContent      = c.calcTitle;
+    document.getElementById('label-loaves').textContent    = c.labelLoaves;
+    document.getElementById('label-hydration').textContent = c.labelHydration;
+    document.getElementById('section-title').textContent   = c.sectionTitle;
+    document.getElementById('notes-title').textContent     = c.notesTitle;
+    document.getElementById('footer-text').innerHTML       = c.footer(hydration, flour);
+    document.getElementById('hydration-hint').textContent  = c.hints[flour][hydration] || '';
+  }
+
+  function updateSteps() {
+    const c = C[lang];
+    const t = TEMPS[units];
+    const steps = c.steps(flour, t);
+    document.getElementById('steps-container').innerHTML = steps.map((step, i) => `
+      <div class="step" style="animation-delay:${i * 0.05}s">
+        <div class="step-number-col">
+          <div class="step-number">${i + 1}</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">${step.title}</div>
+          <div class="step-text">${step.text}</div>
+          ${step.tag ? `<div class="step-tag">${step.tag}</div>` : ''}
+        </div>
+      </div>`).join('');
+  }
+
+  function updateNotes() {
+    const c = C[lang];
+    const notes = c.notes(flour);
+    document.getElementById('notes-container').innerHTML = notes.map(n => `
+      <div class="note-item"><strong>${n.title}</strong> — ${n.text}</div>`).join('');
+  }
+
+  function renderIngredients() {
+    const c = C[lang];
+    const names = c.ingredientNames(flour);
+    const water = FLOUR_BASE * (hydration / 100);
 
     const items = [
-      { name: 'Starter',  amount: STARTER },
-      { name: 'Vann',     amount: water },
-      { name: 'Speltmel', amount: FLOUR },
-      { name: 'Salt',     amount: SALT },
+      { name: names.starter, amount: STARTER },
+      { name: names.water,   amount: water },
+      { name: names.flour,   amount: FLOUR_BASE },
+      { name: names.salt,    amount: SALT },
     ];
 
     document.getElementById('result').innerHTML = items.map(item => {
       const total = item.amount * loaves;
-      const [num, unit] = total >= 1000
-        ? [(total / 1000).toFixed(2).replace(/\.?0+$/, ''), 'kg']
-        : [Math.round(total), 'g'];
+      let num, unit;
+      if (units === 'metric') {
+        if (total >= 1000) {
+          num  = (total / 1000).toFixed(2).replace(/\.?0+$/, '');
+          unit = 'kg';
+        } else {
+          num  = Math.round(total);
+          unit = 'g';
+        }
+      } else {
+        const oz = total * 0.03527;
+        num  = oz < 1 ? oz.toFixed(2) : oz.toFixed(1).replace(/\.0$/, '');
+        unit = 'oz';
+      }
       return `
         <div class="ingredient-pill">
           <div class="pill-name">${item.name}</div>
-          <div class="pill-amount">${num}<span class="pill-unit">${unit}</span></div>
+          <div class="pill-amount">${num}<span class="pill-unit"> ${unit}</span></div>
         </div>`;
     }).join('');
   }
 
-  render();
+  renderAll();
 </script>
 </body>
 </html>
