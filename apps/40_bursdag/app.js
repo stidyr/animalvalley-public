@@ -19,6 +19,10 @@ const CONFIG = {
   TOL_ESTIMAT: 1.0,                         // 100% bom = 0 poeng, eksakt = 10
 };
 
+/* ── helpers ───────────────────────────────────────────────────────────── */
+const esc = s => String(s).replace(/[&<>"']/g, c =>
+  ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
 /* ── state ─────────────────────────────────────────────────────────────── */
 const LS = {
   get: (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
@@ -217,7 +221,7 @@ function viewSignup() {
     <h2 style="margin-bottom:4px">Hvem er du?</h2>
     <p class="muted" style="font-size:14px">Vises på lederbordet.</p>
     <label class="field">Navn eller kallenavn</label>
-    <input type="text" id="name" maxlength="20" value="${state.draftName}" placeholder="F.eks. Kari, DJ Surdeig…" />
+    <input type="text" id="name" maxlength="20" placeholder="F.eks. Kari, DJ Surdeig…" />
     <label class="field">Velg avatar</label>
     <div class="emoji-grid" id="emojis">
       ${CONFIG.EMOJIS.map(e => `<button data-e="${e}" class="${e === state.draftEmoji ? "sel" : ""}">${e}</button>`).join("")}
@@ -226,6 +230,7 @@ function viewSignup() {
   </div>`);
   c.querySelector("#back").onclick = () => go("welcome");
   const nameInput = c.querySelector("#name");
+  nameInput.value = state.draftName; // sett via .value, ikke innerHTML
   nameInput.oninput = (e) => state.draftName = e.target.value;
   c.querySelectorAll("#emojis button").forEach(b => b.onclick = () => {
     state.draftEmoji = b.dataset.e;
@@ -488,11 +493,12 @@ async function viewBoard() {
   const list = el(`<div class="climb"></div>`);
   players.forEach((p, i) => {
     const me = state.player && p.id === state.player.id;
+    const safeEmoji = CONFIG.EMOJIS.includes(p.emoji) ? p.emoji : "🏔️";
     const rung = el(`<div class="rung ${i === 0 ? "top" : ""} ${me ? "me" : ""}">
       <span class="rank">${i + 1}</span>
-      <span class="av">${p.emoji || "🏔️"}</span>
-      <span class="nm">${p.name}${me ? " (deg)" : ""}</span>
-      <span class="pts">${p.total}</span>
+      <span class="av">${safeEmoji}</span>
+      <span class="nm">${esc(p.name)}${me ? " (deg)" : ""}</span>
+      <span class="pts">${Number(p.total) || 0}</span>
     </div>`);
     list.appendChild(rung);
   });
@@ -504,11 +510,15 @@ async function viewBoard() {
     let best = null;
     players.forEach(p => {
       const v = (p.cat && p.cat[key]) || 0;
-      if (v > 0 && (!best || v > best.v)) best = { name: p.name, emoji: p.emoji, v };
+      if (v > 0 && (!best || v > best.v)) best = {
+        name: p.name, emoji: CONFIG.EMOJIS.includes(p.emoji) ? p.emoji : "🏔️", v
+      };
     });
     cats.appendChild(el(`<div class="cat-leader">
       <span class="lead-who">${k.emoji} <b>${k.navn}</b></span>
-      <span>${best ? `${best.emoji} ${best.name} · <span class="mono" style="color:var(--amber)">${best.v}</span>` : "<span class='muted'>ingen ennå</span>"}</span>
+      <span>${best
+        ? `${best.emoji} ${esc(best.name)} · <span class="mono" style="color:var(--amber)">${best.v}</span>`
+        : "<span class='muted'>ingen ennå</span>"}</span>
     </div>`));
   });
   return c;
