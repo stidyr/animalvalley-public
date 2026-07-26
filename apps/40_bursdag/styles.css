@@ -1,0 +1,233 @@
+:root {
+  --bg:        #0E1B24;  /* fjord om natta */
+  --surface:   #162A36;
+  --surface-2: #1E3644;
+  --snow:      #EAF2F0;
+  --muted:     #7E9AA6;
+  --line:      #2B4552;
+  --amber:     #F2A65A;  /* hyttelampe – varme/poeng */
+  --teal:      #4FB6B0;  /* isbre – kjølig aksent */
+  --gold:      #F4C95D;
+  --danger:    #E8756B;
+
+  --r: 14px;
+  --pad: 20px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--snow);
+  font-family: "Inter", system-ui, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.topo {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--teal);
+  opacity: 0.07;
+  stroke-width: 1.5;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#app {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: calc(env(safe-area-inset-top) + 24px) var(--pad)
+           calc(env(safe-area-inset-bottom) + 40px);
+  min-height: 100%;
+}
+
+/* ── typografi ── */
+h1, h2, h3 { font-family: "Space Grotesk", sans-serif; font-weight: 700; letter-spacing: -0.01em; }
+.eyebrow {
+  font-family: "Space Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+.mono { font-family: "Space Mono", monospace; }
+.muted { color: var(--muted); }
+
+/* ── hero / 120 ── */
+.hero { text-align: center; padding: 32px 0 16px; }
+.hero .big {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: clamp(88px, 34vw, 160px);
+  line-height: 0.9;
+  background: linear-gradient(160deg, var(--amber), var(--gold) 60%, var(--teal));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero .sub { color: var(--muted); margin-top: 8px; font-size: 15px; }
+.hero h1 { font-size: 26px; margin-top: 4px; }
+
+/* ── kort / knapper ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: var(--pad);
+  margin-bottom: 14px;
+}
+
+button, .btn {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--bg);
+  background: var(--amber);
+  border: none;
+  border-radius: 12px;
+  padding: 15px 20px;
+  width: 100%;
+  cursor: pointer;
+  transition: transform .08s ease, filter .15s ease;
+}
+button:hover, .btn:hover { filter: brightness(1.06); }
+button:active { transform: translateY(1px); }
+button:focus-visible, a:focus-visible, input:focus-visible {
+  outline: 2px solid var(--teal); outline-offset: 2px;
+}
+button.ghost {
+  background: transparent; color: var(--snow);
+  border: 1px solid var(--line);
+}
+button.small { width: auto; padding: 9px 14px; font-size: 14px; }
+button:disabled { opacity: .5; cursor: default; }
+
+/* ── stegvis intro ── */
+.progress-dots { display: flex; gap: 8px; justify-content: center; margin: 20px 0; }
+.progress-dots span {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--line);
+}
+.progress-dots span.on { background: var(--amber); }
+
+.step-icon { font-size: 44px; text-align: center; margin-bottom: 6px; }
+
+/* ── navn/avatar ── */
+.emoji-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 8px; margin: 14px 0;
+}
+.emoji-grid button {
+  background: var(--surface-2); color: var(--snow);
+  font-size: 26px; padding: 10px 0; border: 1px solid transparent;
+}
+.emoji-grid button.sel { border-color: var(--amber); background: var(--surface); }
+
+input[type="text"], input[type="number"] {
+  width: 100%; font-size: 17px; color: var(--snow);
+  background: var(--surface-2); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px; font-family: inherit;
+}
+label.field { display: block; margin: 14px 0 6px; font-size: 14px; color: var(--muted); }
+
+/* ── hovedmeny ── */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 18px;
+}
+.topbar .who { display: flex; align-items: center; gap: 10px; }
+.topbar .who .av {
+  font-size: 24px; background: var(--surface); border: 1px solid var(--line);
+  width: 44px; height: 44px; border-radius: 50%;
+  display: grid; place-items: center;
+}
+.score-pill {
+  font-family: "Space Mono", monospace; font-weight: 700;
+  color: var(--amber); font-size: 20px;
+}
+
+.tiles { display: grid; gap: 12px; }
+.tile {
+  display: flex; align-items: center; gap: 14px; text-align: left;
+  background: var(--surface); color: var(--snow);
+  border: 1px solid var(--line); border-radius: var(--r);
+  padding: 16px; width: 100%; font-family: inherit; font-weight: 500;
+}
+.tile .em { font-size: 30px; }
+.tile .t-main { flex: 1; }
+.tile .t-main .t-name { font-family: "Space Grotesk"; font-weight: 700; font-size: 18px; }
+.tile .t-main .t-sub { color: var(--muted); font-size: 13px; }
+.tile .t-count { font-family: "Space Mono"; font-size: 13px; color: var(--teal); }
+
+/* ── oppgaveliste ── */
+.q { border-left: 3px solid var(--line); padding-left: 14px; margin-bottom: 12px; }
+.q.done { border-color: var(--teal); }
+.q .q-text { font-size: 16px; margin-bottom: 10px; }
+.q .q-hint { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+.q .q-once { font-size: 11px; color: var(--amber); margin-bottom: 8px; font-weight: 600; }
+.choices { display: grid; gap: 8px; }
+.choices button {
+  background: var(--surface-2); color: var(--snow);
+  border: 1px solid var(--line); font-family: inherit;
+  font-weight: 500; font-size: 15px; text-align: left;
+}
+.choices button.picked { border-color: var(--amber); }
+.result {
+  font-family: "Space Mono"; font-size: 14px; margin-top: 8px; padding: 8px 0;
+}
+.result.ok { color: var(--teal); }
+.result.no { color: var(--danger); }
+.result.pts { color: var(--amber); }
+.inline-row { display: flex; gap: 8px; }
+.inline-row input { flex: 1; }
+.inline-row button { width: auto; padding: 14px 18px; }
+
+/* ── lederbord som høydestigning ── */
+.climb { display: flex; flex-direction: column-reverse; gap: 2px; margin-top: 8px; }
+.rung {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  position: relative;
+}
+.rung .rank { font-family: "Space Mono"; color: var(--muted); width: 26px; }
+.rung .av { font-size: 22px; }
+.rung .nm { flex: 1; font-weight: 600; }
+.rung .pts { font-family: "Space Mono"; font-weight: 700; color: var(--amber); }
+.rung.me { border-color: var(--amber); }
+.rung.top { background: linear-gradient(90deg, var(--surface-2), var(--surface)); }
+.rung.top .rank { color: var(--gold); }
+
+.cat-leaders { display: grid; gap: 8px; margin-top: 6px; }
+.cat-leader {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 10px; font-size: 14px;
+}
+.cat-leader .lead-who { display: flex; align-items: center; gap: 8px; }
+
+.section-title { margin: 22px 0 10px; display: flex; align-items: baseline; gap: 10px; }
+.section-title h2 { font-size: 20px; }
+
+.back {
+  background: transparent; color: var(--muted); border: none;
+  width: auto; padding: 6px 0; font-family: "Space Mono"; font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.tally { text-align: center; font-family: "Space Mono"; color: var(--muted);
+  font-size: 13px; margin-top: 24px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
