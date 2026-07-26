@@ -12,6 +12,11 @@
    herde: flytt CHALLENGES + scoring hit og valider svar server-side.
    ========================================================================= */
 
+/* =========================================================================
+   Secrets som må settes i Cloudflare Workers (wrangler secret put):
+     ADMIN_TOKEN  — tilfeldig streng du velger, oppgi i ?token= ved admin-bruk
+   ========================================================================= */
+
 const CORS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -19,6 +24,26 @@ const CORS = {
 };
 const json = (data, status = 200) =>
   new Response(JSON.stringify(data), { status, headers: { "Content-Type": "application/json", ...CORS } });
+
+// Tillatte emoji fra CONFIG.EMOJIS i app.js
+const ALLOWED_EMOJIS = new Set([
+  "🏔️","🎮","🥖","🎿","🚲","🛠️","🧗","🗺️","🕹️","🍺","🧀","🌲","🎲","⚙️","🧭"
+]);
+
+// Strip HTML-kontrollzeichen fra navn
+function sanitizeName(raw) {
+  return String(raw || "?").replace(/[<>"'&]/g, "").trim().slice(0, 24) || "?";
+}
+
+// Constant-time sammenlikning for å unngå timing-angrep
+function safeEqual(a, b) {
+  if (typeof a !== "string" || typeof b !== "string" || a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
+const MAX_PLAYERS = 200;
 
 export default {
   async fetch(request, env) {
@@ -33,11 +58,27 @@ export default {
     try {
       if (path === "/score" && request.method === "POST") {
         const entry = await request.json();
-        if (!entry.id || typeof entry.total !== "number") return json({ error: "ugyldig" }, 400);
+        if (!entry.id || typeof entry.total !== "number" || !isFinite(entry.total))
+          return json({ error: "ugyldig" }, 400);
+
         const board = (await env.PARTY120.get(boardKey, "json")) || {};
+
+        // Avvis nye spillere hvis bordet er fullt
+        if (!board[entry.id] && Object.keys(board).length >= MAX_PLAYERS)
+          return json({ error: "fullt" }, 429);
+
+        // Valider cat-verdier (skal være tall mellom 0 og 200)
+        const cat = {};
+        for (const [k, v] of Object.entries(entry.cat || {})) {
+          if (typeof v === "number" && isFinite(v) && v >= 0 && v <= 200) cat[k] = v;
+        }
+
         board[entry.id] = {
-          id: entry.id, name: String(entry.name || "?").slice(0, 24),
-          emoji: entry.emoji || "🏔️", total: entry.total, cat: entry.cat || {},
+          id: String(entry.id).slice(0, 32),
+          name: sanitizeName(entry.name),
+          emoji: ALLOWED_EMOJIS.has(entry.emoji) ? entry.emoji : "🏔️",
+          total: Math.min(Math.max(0, entry.total), 200),
+          cat,
           ts: Date.now(),
         };
         await env.PARTY120.put(boardKey, JSON.stringify(board));
@@ -51,10 +92,16 @@ export default {
       }
 
       if (path === "/outcome" && request.method === "POST") {
+        // Krev admin-token
+        const token = url.searchParams.get("token") || "";
+        if (!env.ADMIN_TOKEN || !safeEqual(token, env.ADMIN_TOKEN))
+          return json({ error: "ikke autorisert" }, 401);
+
         const { id, value } = await request.json();
-        if (!id) return json({ error: "mangler id" }, 400);
+        if (!id || typeof id !== "string") return json({ error: "mangler id" }, 400);
+
         const outcomes = (await env.PARTY120.get(outKey, "json")) || {};
-        outcomes[id] = value;
+        outcomes[String(id).slice(0, 32)] = value;
         await env.PARTY120.put(outKey, JSON.stringify(outcomes));
         return json({ ok: true });
       }
