@@ -67,10 +67,12 @@ export default {
         if (!board[entry.id] && Object.keys(board).length >= MAX_PLAYERS)
           return json({ error: "fullt" }, 429);
 
-        // Valider cat-verdier (skal være tall mellom 0 og 200)
+        // Valider cat-verdier (skal være tall mellom 0 og 200).
+        // Appen bruker kun 4 kategorier — kutt hardt for å hindre at noen
+        // blåser opp KV-verdien med tusenvis av påfunne nøkler.
         const cat = {};
-        for (const [k, v] of Object.entries(entry.cat || {})) {
-          if (typeof v === "number" && isFinite(v) && v >= 0 && v <= 200) cat[k] = v;
+        for (const [k, v] of Object.entries(entry.cat || {}).slice(0, 10)) {
+          if (typeof v === "number" && isFinite(v) && v >= 0 && v <= 200) cat[String(k).slice(0, 32)] = v;
         }
 
         board[entry.id] = {
@@ -89,6 +91,17 @@ export default {
         const board = (await env.PARTY120.get(boardKey, "json")) || {};
         const outcomes = (await env.PARTY120.get(outKey, "json")) || {};
         return json({ players: Object.values(board), outcomes });
+      }
+
+      if (path === "/reset" && request.method === "POST") {
+        // Krev admin-token — sletter hele lederbordet + spådom-utfall for partyet
+        const token = url.searchParams.get("token") || "";
+        if (!env.ADMIN_TOKEN || !safeEqual(token, env.ADMIN_TOKEN))
+          return json({ error: "ikke autorisert" }, 401);
+
+        await env.PARTY120.delete(boardKey);
+        await env.PARTY120.delete(outKey);
+        return json({ ok: true });
       }
 
       if (path === "/outcome" && request.method === "POST") {
