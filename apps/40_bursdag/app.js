@@ -35,11 +35,15 @@ const K = {
   board:    `p120.board.${CONFIG.PARTY_ID}`,     // kun local-modus
   outcomes: `p120.outcomes.${CONFIG.PARTY_ID}`,  // spåkone-utfall
   adminToken: `p120.admintoken.${CONFIG.PARTY_ID}`,
+  isAdmin: `p120.isadmin.${CONFIG.PARTY_ID}`,
 };
 
-// ?token=... i URL-en lagres til telefonen husker den (kun nødvendig én gang)
-const tokenParam = new URLSearchParams(location.search).get("token");
+// ?admin=1&token=... i URL-en huskes på telefonen (kun nødvendig én gang)
+const urlParams = new URLSearchParams(location.search);
+const tokenParam = urlParams.get("token");
 if (tokenParam) LS.set(K.adminToken, tokenParam);
+const adminParam = urlParams.get("admin") === "1";
+if (adminParam) LS.set(K.isAdmin, true);
 
 let state = {
   route: "welcome",
@@ -51,7 +55,7 @@ let state = {
   answers: LS.get(K.answers, {}),
   outcomes: LS.get(K.outcomes, {}),   // { challengeId: "Ja"/"Nei"/... }
   board: [],
-  isAdmin: new URLSearchParams(location.search).get("admin") === "1",
+  isAdmin: adminParam || LS.get(K.isAdmin, false),
   adminToken: LS.get(K.adminToken, ""),
 };
 
@@ -391,7 +395,7 @@ function renderChallenge(ch) {
   if (done) { lockResult(); return wrap; }
 
   // ── input pr type ──
-  if (ch.type === "quiz" || ch.type === "spa") {
+  if (ch.type === "quiz" || (ch.type === "spa" && !state.isAdmin)) {
     const box = el(`<div class="choices"></div>`);
     (ch.valg || []).forEach(v => {
       const b = el(`<button>${v}</button>`);
@@ -431,7 +435,7 @@ function renderChallenge(ch) {
     };
     body.appendChild(row);
   }
-  else if (ch.type === "spa-estimat") {
+  else if (ch.type === "spa-estimat" && !state.isAdmin) {
     const row = el(`<div class="inline-row">
       <input type="number" inputmode="decimal" placeholder="Ditt tall${ch.enhet ? " ("+ch.enhet+")" : ""}" />
       <button>Lås</button></div>`);
