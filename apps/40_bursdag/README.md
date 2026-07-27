@@ -20,9 +20,7 @@ Perfekt for å teste flyten før festen.
 1. **challenges.js**: bytt alle `TODO`/`← sett …` med ekte fasit.
    Særlig de personlige estimatene og jubilant-triviaen.
 2. **app.js › CONFIG**: fyll inn `JUBILANTER`, `DATO`.
-3. Skriv ut QR/lapper for `utforsker`-kodene (FJORD, RANDONEE, SURDEIG, 1986)
-   og gjem dem. QR kan peke på `…/party-120/?kode=FJORD` for auto-utfylling.
-4. Skru på delt lederbord (under).
+3. Skru på delt lederbord (under).
 
 ## Delt lederbord (Cloudflare Worker)
 1. Lag KV-namespace og bind den som `PARTY120` i `wrangler.toml`:

@@ -10,7 +10,7 @@
    ========================================================================= */
 
 const CONFIG = {
-  LEDERBORD: "local",                       // "local" | "worker"
+  LEDERBORD: "worker",                      // "local" | "worker"
   WORKER_URL: "https://api.animalvalley.no/party120", // brukes kun i "worker"
   PARTY_ID: "120-2026",                     // bytt hvis dere kjører flere fester
   JUBILANTER: "Stian, Kristian og Torstein",
@@ -34,7 +34,12 @@ const K = {
   seenIntro:`p120.intro.${CONFIG.PARTY_ID}`,
   board:    `p120.board.${CONFIG.PARTY_ID}`,     // kun local-modus
   outcomes: `p120.outcomes.${CONFIG.PARTY_ID}`,  // spåkone-utfall
+  adminToken: `p120.admintoken.${CONFIG.PARTY_ID}`,
 };
+
+// ?token=... i URL-en lagres til telefonen husker den (kun nødvendig én gang)
+const tokenParam = new URLSearchParams(location.search).get("token");
+if (tokenParam) LS.set(K.adminToken, tokenParam);
 
 let state = {
   route: "welcome",
@@ -47,6 +52,7 @@ let state = {
   outcomes: LS.get(K.outcomes, {}),   // { challengeId: "Ja"/"Nei"/... }
   board: [],
   isAdmin: new URLSearchParams(location.search).get("admin") === "1",
+  adminToken: LS.get(K.adminToken, ""),
 };
 
 // hopp forbi intro hvis spiller finnes
@@ -129,13 +135,23 @@ async function setOutcome(chId, value) {           // admin
   LS.set(K.outcomes, state.outcomes);
   if (CONFIG.LEDERBORD === "worker") {
     try {
-      await fetch(`${CONFIG.WORKER_URL}/outcome?party=${CONFIG.PARTY_ID}`, {
+      await fetch(`${CONFIG.WORKER_URL}/outcome?party=${CONFIG.PARTY_ID}&token=${encodeURIComponent(state.adminToken || "")}`, {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: chId, value }),
       });
     } catch (e) {}
   }
   await pushScore();
+}
+
+async function resetBoard() {                     // admin — sletter hele lederbordet
+  if (CONFIG.LEDERBORD !== "worker") { LS.set(K.board, {}); return true; }
+  try {
+    const r = await fetch(`${CONFIG.WORKER_URL}/reset?party=${CONFIG.PARTY_ID}&token=${encodeURIComponent(state.adminToken || "")}`, {
+      method: "POST",
+    });
+    return r.ok;
+  } catch (e) { return false; }
 }
 
 /* ── answer helpers ────────────────────────────────────────────────────── */
@@ -270,7 +286,7 @@ function viewMenu() {
     <div class="topbar">
       <div class="who">
         <span class="av">${state.player.emoji}</span>
-        <div><div style="font-weight:600">${state.player.name}</div>
+        <div><div style="font-weight:600">${esc(state.player.name)}</div>
         <div class="muted" style="font-size:12px">dine poeng</div></div>
       </div>
       <span class="score-pill">${total}</span>
@@ -279,13 +295,20 @@ function viewMenu() {
     <button id="board" style="background:var(--teal);margin-bottom:18px">🏔️ Se lederbordet</button>
 
     <div class="tiles">${tiles}</div>
-    ${state.isAdmin ? `<button class="ghost" id="admin" style="margin-top:16px">🔧 Admin: gjør opp spådommer</button>` : ""}
+    ${state.isAdmin ? `<button class="ghost" id="admin" style="margin-top:16px">🔧 Admin: gjør opp spådommer</button>
+    <button class="ghost" id="reset" style="margin-top:8px;color:var(--danger)">🗑️ Nullstill lederbord</button>` : ""}
     <p class="tally">Poeng lagres på telefonen din. Bytt kategori når du vil.</p>
   </div>`);
   c.querySelector("#board").onclick = () => go("board");
   c.querySelectorAll(".tile").forEach(t => t.onclick = () => go("cat", { cat: t.dataset.cat }));
   const admin = c.querySelector("#admin");
   if (admin) admin.onclick = () => go("cat", { cat: "spa" });
+  const reset = c.querySelector("#reset");
+  if (reset) reset.onclick = async () => {
+    if (!confirm("Slette HELE lederbordet? Dette kan ikke angres.")) return;
+    const ok = await resetBoard();
+    alert(ok ? "Lederbordet er nullstilt." : "Noe gikk galt — sjekk admin-token.");
+  };
   return c;
 }
 

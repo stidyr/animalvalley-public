@@ -1,0 +1,12 @@
+name = "party120"
+main = "worker.js"
+compatibility_date = "2026-01-01"
+workers_dev = false
+
+[[kv_namespaces]]
+binding = "PARTY120"
+id = "5f21981b6ef44f45b61ed1710cc720f8"
+
+[[routes]]
+pattern = "api.animalvalley.no/party120/*"
+zone_name = "animalvalley.no"
