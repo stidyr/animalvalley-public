@@ -13,7 +13,7 @@
 const KATEGORIER = {
   kunnskap:  { navn: "Kunnskap",  emoji: "🧠", stikk: "Vet du det, eller vet du det ikke?" },
   estimat:   { navn: "Estimering", emoji: "📐", stikk: "Nærmest vinner. Gjett smart." },
-  utforsker: { navn: "Utforsker", emoji: "🕵️", stikk: "Lei deg ut, snakk med folk og finn svarene." },
+  utforsker: { navn: "Utforsker", emoji: "🕵️", stikk: "Utforsk, snakk med folk og finn svar." },
   spa:       { navn: "Spåkone",   emoji: "🔮", stikk: "Spå kvelden. Gjøres opp til slutt." },
 };
 
@@ -51,8 +51,8 @@ const CHALLENGES = [
     id: "k-jub-ski", kat: "kunnskap", type: "quiz",
     sporsmal: "Hvem av de tre jubilantene har flest høydemeter på randonée denne vinteren?",
     valg: ["Stian", "Kristian", "Torstein"],
-    fasit: "Torstein",
-    funfact: "Torstein topper listen — og randonée-høydemeterne teller ikke seg selv.",
+    fasit: "Kristian",
+    funfact: "Kristian topper listen. Torstein sto på null høydemeter denne vinteren — helt uten randonée.",
   },
   {
     id: "k-Sogn-lengst", kat: "kunnskap", type: "quiz",
@@ -131,14 +131,14 @@ const CHALLENGES = [
   {
     id: "e-brod", kat: "estimat", type: "estimat",
     sporsmal: "Hvor mange surdeigsbrød har de tre jubilantene bakt til sammen i år?",
-    fasit: 270, enhet: "brød",
-    funfact: "Stian baker rundt 3 brød i uken. Legger du til Kristian og Torstein og 30 uker, tikker det opp til 270 brød. Stablet på hverandre er det omtrent 32 meter — like høyt som et 10-etasjes bygg.",
+    fasit: 150, enhet: "brød",
+    funfact: "I snitt bakes det 3-4 brød i uken til sammen — det lander på rundt 150 brød i 2026.",
   },
   {
     id: "e-hoydemeter", kat: "estimat", type: "estimat",
     sporsmal: "Samlet høydemeter på randonée for de tre denne vinteren?",
-    fasit: 4000, enhet: "hm", // TODO: sjekk ekte tall før festen
-    funfact: "Randonée kombinerer alpint og langrenn — du går opp på klatreski og kjører ned på ski. Høydemeterne tar seg definitivt ikke selv, men utsikten fra toppen er alltid verdt det.",
+    fasit: 3000, enhet: "hm",
+    funfact: "Rundt 800 + 2000 høydemeter til sammen — Torstein sto på null. Randonée kombinerer alpint og langrenn: du går opp på klatreski og kjører ned på ski.",
   },
 
   // ── 🕵️ UTFORSKER ─────────────────────────────────────────────
