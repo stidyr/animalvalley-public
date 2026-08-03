@@ -20,12 +20,18 @@ const KATEGORIER = {
 const CHALLENGES = [
   // ── 🧠 KUNNSKAP ──────────────────────────────────────────────
   {
-    id: "k-rcm", kat: "kunnskap", type: "quiz",
-    sporsmal: "Hva står RCM for?",
-    valg: ["Reliability Centered Maintenance", "Risk Control Model",
-           "Rapid Component Mapping", "Reactive Corrective Maintenance"],
-    fasit: "Reliability Centered Maintenance",
-    funfact: "RCM ble utviklet for flyindustrien på 1960-tallet. Stian bruker metoden på offshoreanlegg i dag.",
+    id: "k-vik-delikatesse", kat: "kunnskap", type: "quiz",
+    sporsmal: "Kva er den tradisjonelle matdelikatessen frå Vik i Sogn, med eigen festival kvart år i juni?",
+    valg: ["Gamalost", "Rakfisk", "Fenalår", "Smalahove"],
+    fasit: "Gamalost",
+    funfact: "Gamalostfestivalen i Vik har røter heilt attende til vikingtida. Vik er òg ein av landets største produsentar av bringebær.",
+  },
+  {
+    id: "k-urnes", kat: "kunnskap", type: "quiz",
+    sporsmal: "Kva er den einaste stavkyrkja i Noreg som står på UNESCOs verdsarvliste — ho ligg i Luster i Sogn?",
+    valg: ["Urnes stavkyrkje", "Hopperstad stavkyrkje", "Kaupanger stavkyrkje", "Borgund stavkyrkje"],
+    fasit: "Urnes stavkyrkje",
+    funfact: "Urnes stavkyrkje kom på UNESCOs verdsarvliste i 1979 — same år som Bryggen i Bergen. Dei eldste tømmerstokkane i kyrkja er daterte heilt attende til år 1070.",
   },
   {
     id: "k-sogndal-vgs", kat: "kunnskap", type: "quiz",
@@ -47,13 +53,6 @@ const CHALLENGES = [
     valg: ["Stian", "Kristian", "Torstein"],
     fasit: "Torstein",
     funfact: "Torstein topper listen — og randonée-høydemeterne teller ikke seg selv.",
-  },
-  {
-    id: "k-jub-spill", kat: "kunnskap", type: "quiz",
-    sporsmal: "Hvem av de tre har lagt flest timer i Elden Ring?",
-    valg: ["Stian", "Kristian", "Torstein"],
-    fasit: "Torstein",
-    funfact: "Torstein er den udiskutable Elden Lord i gjengen. Det er ingen konkurranse.",
   },
   {
     id: "k-Sogn-lengst", kat: "kunnskap", type: "quiz",
@@ -93,10 +92,17 @@ const CHALLENGES = [
   },
   {
     id: "e-papirbretting", kat: "estimat", type: "estimat",
-    sporsmal: "Du bretter et A4-papir 42 ganger. Hvor høy er stabelen? (km)",
-    hint: "Et annet paradoks. Gjett instinktivt.",
+    sporsmal: "Tenk deg (rent teoretisk — det går ikke i praksis) at du bretter et A4-papir 42 ganger. Hvor høy er stabelen? (km)",
+    hint: "Et tankeeksperiment. I virkeligheten klarer du knapt 7-8 bretter for hånd — men gjett likevel instinktivt.",
     fasit: 440000, enhet: "km",
     funfact: "440 000 km — avstand til Månen og tilbake. Et A4-ark er ca. 0,1 mm tykt. Dobling 42 ganger: 0,0001 m × 2⁴² = 439 804 651 km. Eksponentiell vekst slår intuisjonen hver gang.",
+  },
+  {
+    id: "e-a4-bretting-praksis", kat: "estimat", type: "estimat",
+    sporsmal: "Nå den ekte testen: hvor mange ganger klarer DU faktisk å brette et vanlig A4-ark på midten, brett etter brett? Det ligger ark fremme — prøv selv!",
+    hint: "Tykkelsen dobles for hver bretting, så det går fortere tomt for krefter enn du tror.",
+    fasit: 7, enhet: "ganger",
+    funfact: "7 er den vanlige praktiske grensen for et standard A4-ark — etter det blir stabelen for tykk og liten til å få tak i. Verdensrekorden med spesialpapir (mye tynnere og enormt mye større) er brutt opp mot 13 bretter, men et A4-ark fra skriveren stopper deg lenge før det.",
   },
   {
     id: "e-halley", kat: "estimat", type: "estimat",
@@ -111,11 +117,10 @@ const CHALLENGES = [
     funfact: "4,04 kr i 1986. I dag koster literen rundt 20 kr — en femdobling på 40 år. Justert for inflasjon burde den «bare» kostet 13–14 kr, så bensin har blitt betydelig reelt dyrere.",
   },
   {
-    id: "e-cod-disk", kat: "estimat", type: "estimat",
-    sporsmal: "Hvor mye plass tar en fersk Call of Duty-installasjon på disk? (GB)",
-    hint: "Med Warzone nærmer det seg 150 GB.",
-    fasit: 125, enhet: "GB",
-    funfact: "125 GB for grunnspilet — med Warzone nærmer det seg 150 GB. En gjennomsnittlig laptop i 2005 hadde 40–80 GB totalt. CoD er i praksis blitt et operativsystem.",
+    id: "e-jostedalsbreen", kat: "estimat", type: "estimat",
+    sporsmal: "Jostedalsbreen, rett ved Sogn, er Europas største isbre på fastlandet. Hvor mange kvadratkilometer dekker den? (km²)",
+    fasit: 460, enhet: "km²",
+    funfact: "Rundt 460 km² (tallet varierer noe med kilde og år — breen krymper). Brearmen Nigardsbreen er et populært turmål for folk fra Sogn.",
   },
   {
     id: "e-surdeig", kat: "estimat", type: "estimat",
@@ -175,13 +180,6 @@ const CHALLENGES = [
     fasit: "Stian",
     funfact: "Stian vokste opp med bare brødre — noe som sikkert forklarer en del.",
   },
-  {
-    id: "u-grafikkort", kat: "utforsker", type: "quiz",
-    sporsmal: "Spør en jubilant: Hva er skjermkortet alle tre har i PC-en?",
-    valg: ["RTX 4070 Ti Super", "RTX 4080", "RX 7900 XT", "RTX 3090"],
-    fasit: "RTX 4070 Ti Super",
-    funfact: "RTX 4070 Ti Super — alle tre med samme GPU. De vet hva de vil ha, og de har diskutert det grundig.",
-  },
 
   // ── 🔮 SPÅKONE ───────────────────────────────────────────────
   // Ja/Nei-spådommer: vert åpner ?admin=1 mot slutten og setter utfall.
@@ -192,7 +190,7 @@ const CHALLENGES = [
   },
   {
     id: "sp-jobb", kat: "spa", type: "spa",
-    sporsmal: "Nevner noen jobb eller RCM uoppfordret før kl 22?",
+    sporsmal: "Nevner noen jobb uoppfordret før kl 22?",
     valg: ["Ja", "Nei"],
   },
   {
