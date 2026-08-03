@@ -180,6 +180,13 @@ const CHALLENGES = [
     fasit: "Stian",
     funfact: "Stian vokste opp med bare brødre — noe som sikkert forklarer en del.",
   },
+  {
+    id: "u-straumgjerde", kat: "utforsker", type: "quiz",
+    sporsmal: "Spør en jubilant: Kven lurte kven til å tisse på straumgjerdet då dei var små?",
+    valg: ["Torstein lurte Kristian", "Kristian lurte Torstein", "Stian lurte Torstein", "Ingen har prøvd dette"],
+    fasit: "Torstein lurte Kristian",
+    funfact: "Ein klassisk barnestrek — og Kristian fall for det. Straumgjerde og nyfikne smågutar er ein dårleg kombinasjon.",
+  },
 
   // ── 🔮 SPÅKONE ───────────────────────────────────────────────
   // Ja/Nei-spådommer: vert åpner ?admin=1 mot slutten og setter utfall.
