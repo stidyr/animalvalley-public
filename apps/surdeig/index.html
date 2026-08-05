@@ -641,7 +641,7 @@
 
   const HEADER_TITLE_TPL = { no: 'Surdeigsbrød<br><em>med {{FLOUR_TITLE}}</em>', en: 'Sourdough Bread<br><em>with {{FLOUR_TITLE}}</em>' };
   const HEADER_SUB_TPL   = { no: '{{HYDRATION}}% hydrasjon &nbsp;·&nbsp; Lang kaldheving &nbsp;·&nbsp; Jerngryte',
-                              en: '{{HYDRATION}}% hydration &nbsp;·&nbsp; Long cold retard &nbsp;·&nbsp; Dutch oven' };
+                              en: '{{HYDRATION}}% hydration &nbsp;·&nbsp; Long cold proof &nbsp;·&nbsp; Dutch oven' };
   const FOOTER_TPL        = { no: 'Surdeigsbrød med {{FLOUR_TITLE}} &nbsp;·&nbsp; {{HYDRATION}}% hydrasjon',
                               en: 'Sourdough bread with {{FLOUR_TITLE}} &nbsp;·&nbsp; {{HYDRATION}}% hydration' };
   const PAGE_TITLE_TPL    = { no: 'Surdeigsbrød med {{FLOUR_NAME}}', en: 'Sourdough Bread with {{FLOUR_NAME}}' };
@@ -697,6 +697,12 @@
 
   const STEPS = [
     {
+      title: { no: 'Fôr starteren', en: 'Feed your starter' },
+      text:  { no: 'Ta det du har igjen av surdeigsstarter — så lite som 1–20 gram holder fint. Ha det i en bolle med vann og visp godt til det dannes luftbobler. Bland deretter inn {{FLOUR_DEF}} til blandingen er ganske tykk, omtrent som havregrøt. La stå i romtemperatur til den er boblete og har økt tydelig i volum.',
+               en: 'Take whatever sourdough starter you have left — as little as 1–20 grams works fine. Put it in a bowl with water and whisk well until air bubbles form. Then mix in {{FLOUR_DEF}} until the mixture is fairly thick, about the consistency of oatmeal porridge. Let it sit at room temperature until bubbly and clearly risen in volume.' },
+      tag: { no: '⏱ 4–8 timer', en: '⏱ 4–8 hours' }
+    },
+    {
       title: { no: 'Bland starter og vann', en: 'Mix starter and water' },
       text:  { no: 'Visp starter og vann sammen i en stor bolle til starteren er oppløst og blandingen er jevn.',
                en: 'Whisk the starter and water together in a large bowl until the starter is dissolved and the mixture is smooth.' }
@@ -736,7 +742,7 @@
       tag: { no: '⏱ 45 min', en: '⏱ 45 min' }
     },
     {
-      title: { no: 'Kaldheving', en: 'Cold retard' },
+      title: { no: 'Kaldheving', en: 'Cold proof' },
       text:  { no: 'Sett kurven i kjøleskapet i 10–12 timer. Opptil 16 timer gir enda mer smak.',
                en: 'Place the basket in the refrigerator for 10–12 hours. Up to 16 hours gives even more flavor.' },
       tag: { no: '⏱ 10–16 timer', en: '⏱ 10–16 hours' }
