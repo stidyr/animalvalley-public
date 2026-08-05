@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title id="page-title">Surdeigsbrød med Spelt</title>
+<title id="page-title">Sourdough Bread</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -534,22 +534,18 @@
 <body>
 
 <header>
-  <div class="header-eyebrow" id="header-eyebrow">Håndverksoppskrift</div>
-  <h1 id="header-title">Surdeigsbrød<br><em>med spelt</em></h1>
-  <div class="header-sub" id="header-sub">68% hydrasjon &nbsp;·&nbsp; Lang kaldheving &nbsp;·&nbsp; Jerngryte</div>
+  <div class="header-eyebrow" id="header-eyebrow">Artisan Recipe</div>
+  <h1 id="header-title">Sourdough Bread</h1>
+  <div class="header-sub" id="header-sub">68% hydration &nbsp;·&nbsp; Long cold proof &nbsp;·&nbsp; Dutch oven</div>
 </header>
 
 <div class="toggle-bar">
   <div class="toggle-group" id="lang-toggle">
-    <button class="toggle-btn active" data-value="no" onclick="setLang('no')">NO</button>
-    <button class="toggle-btn" data-value="en" onclick="setLang('en')">EN</button>
-  </div>
-  <div class="toggle-group" id="flour-toggle">
-    <button class="toggle-btn active" data-value="spelt" onclick="setFlour('spelt')">Spelt</button>
-    <button class="toggle-btn" data-value="normal" onclick="setFlour('normal')">Hvete</button>
+    <button class="toggle-btn" data-value="no" onclick="setLang('no')">NO</button>
+    <button class="toggle-btn active" data-value="en" onclick="setLang('en')">EN</button>
   </div>
   <div class="toggle-group" id="units-toggle">
-    <button class="toggle-btn active" data-value="metric" onclick="setUnits('metric')">Metrisk</button>
+    <button class="toggle-btn active" data-value="metric" onclick="setUnits('metric')">Metric</button>
     <button class="toggle-btn" data-value="us" onclick="setUnits('us')">US</button>
   </div>
 </div>
@@ -558,10 +554,10 @@
 
   <!-- CALCULATOR -->
   <div class="calculator">
-    <div class="calc-title" id="calc-title">Beregning</div>
+    <div class="calc-title" id="calc-title">Calculator</div>
 
     <div class="calc-control">
-      <span class="calc-label" id="bread-label">Brød</span>
+      <span class="calc-label" id="bread-label">Loaves</span>
       <div class="counter">
         <button onclick="changeLoaves(-1)">−</button>
         <div class="counter-value" id="loaves-display">1</div>
@@ -571,7 +567,7 @@
 
     <div class="hydration-row">
       <div class="hydration-header">
-        <span class="calc-label" id="hydration-label">Hydrasjon</span>
+        <span class="calc-label" id="hydration-label">Hydration</span>
         <span class="hydration-value" id="hydration-display">68%</span>
       </div>
       <div class="slider-track">
@@ -583,7 +579,7 @@
           <span>80%</span>
         </div>
         <input type="range" id="hydration-slider" min="60" max="80" value="68" step="1" oninput="changeHydration(this.value)">
-        <div class="hydration-hint" id="hydration-hint">Stram og god til spelt</div>
+        <div class="hydration-hint" id="hydration-hint">Balanced — nice structure and flavor</div>
       </div>
     </div>
 
@@ -592,7 +588,7 @@
 
   <!-- STEPS -->
   <div class="section-header">
-    <h2 id="section-header-title">Fremgangsmåte</h2>
+    <h2 id="section-header-title">Method</h2>
     <div class="section-line"></div>
   </div>
 
@@ -600,51 +596,41 @@
 
   <!-- NOTES -->
   <div class="notes-box">
-    <div class="notes-title" id="notes-title">Merknader</div>
+    <div class="notes-title" id="notes-title">Notes</div>
     <div id="notes-list"></div>
   </div>
 
 </div>
 
-<footer id="footer-text">Surdeigsbrød med spelt &nbsp;·&nbsp; 68% hydrasjon</footer>
+<footer id="footer-text">Sourdough bread &nbsp;·&nbsp; 68% hydration</footer>
 
 <script>
   let loaves = 1;
   let hydration = 68;
-  let lang = 'no';
-  let flourType = 'spelt';
+  let lang = 'en';
   let units = 'metric';
 
   const FLOUR = 500;
   const STARTER = 100;
   const SALT = 10;
 
-  const FLOUR_NAMES = {
-    no: {
-      spelt:  { name: 'Speltmel', defArticle: 'speltmelet', adj: 'spelt',        titleWord: 'spelt',        toggleLabel: 'Spelt' },
-      normal: { name: 'Hvetemel', defArticle: 'hvetemelet', adj: 'vanlig hvete', titleWord: 'vanlig hvete', toggleLabel: 'Hvete' }
-    },
-    en: {
-      spelt:  { name: 'Spelt flour', defArticle: 'the spelt flour', adj: 'spelt',       titleWord: 'spelt',        toggleLabel: 'Spelt' },
-      normal: { name: 'Wheat flour', defArticle: 'the wheat flour', adj: 'wheat flour', titleWord: 'wheat flour', toggleLabel: 'Wheat' }
-    }
-  };
+  const FLOUR_DEF = { no: 'melet', en: 'the flour' };
 
   const UI = {
     no: { eyebrow: 'Håndverksoppskrift', calcTitle: 'Beregning', breadLabel: 'Brød', hydrationLabel: 'Hydrasjon',
           sectionHeader: 'Fremgangsmåte', notesTitle: 'Merknader', unitsMetric: 'Metrisk', unitsUS: 'US',
-          starterName: 'Starter', waterName: 'Vann', saltName: 'Salt' },
+          starterName: 'Starter', waterName: 'Vann', saltName: 'Salt', flourName: 'Mel' },
     en: { eyebrow: 'Artisan Recipe', calcTitle: 'Calculator', breadLabel: 'Loaves', hydrationLabel: 'Hydration',
           sectionHeader: 'Method', notesTitle: 'Notes', unitsMetric: 'Metric', unitsUS: 'US',
-          starterName: 'Starter', waterName: 'Water', saltName: 'Salt' }
+          starterName: 'Starter', waterName: 'Water', saltName: 'Salt', flourName: 'Flour' }
   };
 
-  const HEADER_TITLE_TPL = { no: 'Surdeigsbrød<br><em>med {{FLOUR_TITLE}}</em>', en: 'Sourdough Bread<br><em>with {{FLOUR_TITLE}}</em>' };
+  const HEADER_TITLE_TPL = { no: 'Surdeigsbrød', en: 'Sourdough Bread' };
   const HEADER_SUB_TPL   = { no: '{{HYDRATION}}% hydrasjon &nbsp;·&nbsp; Lang kaldheving &nbsp;·&nbsp; Jerngryte',
                               en: '{{HYDRATION}}% hydration &nbsp;·&nbsp; Long cold proof &nbsp;·&nbsp; Dutch oven' };
-  const FOOTER_TPL        = { no: 'Surdeigsbrød med {{FLOUR_TITLE}} &nbsp;·&nbsp; {{HYDRATION}}% hydrasjon',
-                              en: 'Sourdough bread with {{FLOUR_TITLE}} &nbsp;·&nbsp; {{HYDRATION}}% hydration' };
-  const PAGE_TITLE_TPL    = { no: 'Surdeigsbrød med {{FLOUR_NAME}}', en: 'Sourdough Bread with {{FLOUR_NAME}}' };
+  const FOOTER_TPL        = { no: 'Surdeigsbrød &nbsp;·&nbsp; {{HYDRATION}}% hydrasjon',
+                              en: 'Sourdough bread &nbsp;·&nbsp; {{HYDRATION}}% hydration' };
+  const PAGE_TITLE_TPL    = { no: 'Surdeigsbrød', en: 'Sourdough Bread' };
 
   const HINTS = {
     no: {
@@ -652,8 +638,8 @@
       61: 'Meget stram — tett krumme, lett å forme',
       62: 'Stram — god kontroll, kompakt brød',
       63: 'Stram — god kontroll, kompakt brød',
-      64: 'Stram og god til {{FLOUR_ADJ}}',
-      65: 'Stram og god til {{FLOUR_ADJ}}',
+      64: 'Stram og fast konsistens',
+      65: 'Stram og fast konsistens',
       66: 'Balansert — fin struktur og smak',
       67: 'Balansert — fin struktur og smak',
       68: 'Balansert — fin struktur og smak',
@@ -661,22 +647,22 @@
       70: 'Litt løsere — åpnere krumme',
       71: 'Løs deig — krever god glutenstruktur',
       72: 'Løs deig — krever god glutenstruktur',
-      73: 'Krevende å forme — vær forsiktig med {{FLOUR_ADJ}}',
-      74: 'Krevende å forme — vær forsiktig med {{FLOUR_ADJ}}',
+      73: 'Krevende å forme — vær forsiktig',
+      74: 'Krevende å forme — vær forsiktig',
       75: 'Høy hydrasjon — veldig åpen krumme',
       76: 'Høy hydrasjon — veldig åpen krumme',
       77: 'Svært løs — for erfarne bakere',
       78: 'Svært løs — for erfarne bakere',
-      79: 'Ekstremt løs — risikabelt med {{FLOUR_ADJ}}',
-      80: 'Ekstremt løs — risikabelt med {{FLOUR_ADJ}}'
+      79: 'Ekstremt løs — risikabelt',
+      80: 'Ekstremt løs — risikabelt'
     },
     en: {
       60: 'Very tight — dense crumb, easy to shape',
       61: 'Very tight — dense crumb, easy to shape',
       62: 'Tight — good control, compact loaf',
       63: 'Tight — good control, compact loaf',
-      64: 'Tight and well-suited to {{FLOUR_ADJ}}',
-      65: 'Tight and well-suited to {{FLOUR_ADJ}}',
+      64: 'Tight and firm consistency',
+      65: 'Tight and firm consistency',
       66: 'Balanced — nice structure and flavor',
       67: 'Balanced — nice structure and flavor',
       68: 'Balanced — nice structure and flavor',
@@ -684,14 +670,14 @@
       70: 'A bit looser — more open crumb',
       71: 'Slack dough — needs strong gluten development',
       72: 'Slack dough — needs strong gluten development',
-      73: 'Hard to shape — take care with {{FLOUR_ADJ}}',
-      74: 'Hard to shape — take care with {{FLOUR_ADJ}}',
+      73: 'Hard to shape — take care',
+      74: 'Hard to shape — take care',
       75: 'High hydration — very open crumb',
       76: 'High hydration — very open crumb',
       77: 'Very slack — for experienced bakers',
       78: 'Very slack — for experienced bakers',
-      79: 'Extremely slack — risky with {{FLOUR_ADJ}}',
-      80: 'Extremely slack — risky with {{FLOUR_ADJ}}'
+      79: 'Extremely slack — risky',
+      80: 'Extremely slack — risky'
     }
   };
 
@@ -715,8 +701,8 @@
     },
     {
       title: { no: 'Ta vare på resten av starteren', en: 'Take care of the leftover starter' },
-      text:  { no: 'Mens deigen hviler under autolysen har du 30 minutter til overs — bruk dem til å mate resten av starteren på nytt: bland inn litt vann og mel/spelt, akkurat som i det første steget. Sett den så tilbake i kjøleskapet til neste gang. Skal du bake mer brød allerede neste dag, kan den i stedet stå fremme på disken.',
-               en: 'While the dough rests during the autolyse you\'ve got 30 minutes to spare — use it to feed the rest of the starter again: mix in a little water and flour/spelt, just like in the first step. Then put it back in the fridge until next time. If you\'re baking more bread as soon as the next day, you can leave it out on the counter instead.' }
+      text:  { no: 'Mens deigen hviler under autolysen har du 30 minutter til overs — bruk dem til å mate resten av starteren på nytt: bland inn litt vann og mel, akkurat som i det første steget. Sett den så tilbake i kjøleskapet til neste gang. Skal du bake mer brød allerede neste dag, kan den i stedet stå fremme på disken.',
+               en: 'While the dough rests during the autolyse you\'ve got 30 minutes to spare — use it to feed the rest of the starter again: mix in a little water and flour, just like in the first step. Then put it back in the fridge until next time. If you\'re baking more bread as soon as the next day, you can leave it out on the counter instead.' }
     },
     {
       title: { no: 'Tilsett salt', en: 'Add the salt' },
@@ -784,17 +770,10 @@
       text:  { no: 'Stikk forsiktig en finger i deigen før steking. Spretter sakte tilbake og etterlater en liten bulk: stek nå. Spretter raskt tilbake: la den stå litt til. Spretter ikke tilbake: stek umiddelbart.',
                en: 'Gently poke a finger into the dough before baking. Springs back slowly and leaves a slight indent: bake now. Springs back quickly: let it sit a bit longer. Doesn\'t spring back: bake immediately.' }
     },
-    flourNote: {
-      spelt: {
-        title: { no: 'Spelt', en: 'Spelt' },
-        text:  { no: 'Fermenterer raskere enn vanlig hvete. Hvis kjøkkenet er over {{TEMP3}}, kutt stretch and fold til 3 runder.',
-                 en: 'Ferments faster than regular wheat. If your kitchen is above {{TEMP3}}, cut the stretch and fold down to 3 rounds.' }
-      },
-      normal: {
-        title: { no: 'Vanlig hvetemel', en: 'Wheat flour' },
-        text:  { no: 'Mer forgivende enn spelt og tåler litt lengre heving uten å overheve — fin start hvis du er ny til surdeig.',
-                 en: 'More forgiving than spelt and tolerates a slightly longer rise without overproofing — a good starting point if you\'re new to sourdough.' }
-      }
+    warmKitchen: {
+      title: { no: 'Varmt kjøkken', en: 'Warm kitchen' },
+      text:  { no: 'Er kjøkkenet ditt over {{TEMP3}}, fermenterer deigen raskere. Kutt gjerne stretch and fold ned til 3 runder.',
+               en: 'If your kitchen is above {{TEMP3}}, the dough ferments faster. Feel free to cut the stretch and fold down to 3 rounds.' }
     },
     scoring: {
       title: { no: 'Snittvinkel', en: 'Scoring angle' },
@@ -833,17 +812,10 @@
     return [trimZeros(oz.toFixed(1)), 'oz'];
   }
 
-  function currentFlour() {
-    return FLOUR_NAMES[lang][flourType];
-  }
-
   function vars() {
-    const f = currentFlour();
     return {
-      FLOUR_DEF: f.defArticle,
-      FLOUR_TITLE: f.titleWord,
-      FLOUR_ADJ: f.adj,
-      FLOUR_NAME: f.name,
+      FLOUR_DEF: FLOUR_DEF[lang],
+      FLOUR_NAME: UI[lang].flourName,
       TEMP1: fmtTemp(250),
       TEMP2: fmtTemp(220),
       TEMP3: fmtTemp(22),
@@ -864,16 +836,12 @@
   }
 
   function setLang(l) { lang = l; syncToggleUI(); renderAll(); }
-  function setFlour(f) { flourType = f; syncToggleUI(); renderAll(); }
   function setUnits(u) { units = u; syncToggleUI(); renderAll(); }
 
   function syncToggleUI() {
     document.querySelectorAll('#lang-toggle .toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.value === lang));
-    document.querySelectorAll('#flour-toggle .toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.value === flourType));
     document.querySelectorAll('#units-toggle .toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.value === units));
 
-    document.querySelector('#flour-toggle [data-value="spelt"]').textContent = FLOUR_NAMES[lang].spelt.toggleLabel;
-    document.querySelector('#flour-toggle [data-value="normal"]').textContent = FLOUR_NAMES[lang].normal.toggleLabel;
     document.querySelector('#units-toggle [data-value="metric"]').textContent = UI[lang].unitsMetric;
     document.querySelector('#units-toggle [data-value="us"]').textContent = UI[lang].unitsUS;
   }
@@ -902,12 +870,11 @@
 
   function renderIngredients() {
     const water = FLOUR * (hydration / 100);
-    const f = currentFlour();
 
     const items = [
       { name: UI[lang].starterName, amount: STARTER },
       { name: UI[lang].waterName, amount: water },
-      { name: f.name, amount: FLOUR },
+      { name: UI[lang].flourName, amount: FLOUR },
       { name: UI[lang].saltName, amount: SALT }
     ];
 
@@ -940,7 +907,7 @@
 
   function renderNotes() {
     const V = vars();
-    const notes = [NOTES.poke, NOTES.flourNote[flourType], NOTES.scoring];
+    const notes = [NOTES.poke, NOTES.warmKitchen, NOTES.scoring];
     document.getElementById('notes-list').innerHTML = notes.map(n =>
       `<div class="note-item"><strong>${tpl(n.title[lang], V)}</strong> — ${tpl(n.text[lang], V)}</div>`
     ).join('');
