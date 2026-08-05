@@ -380,6 +380,16 @@
     font-weight: 400;
   }
 
+  .step-note {
+    margin-top: 10px;
+    padding-left: 12px;
+    border-left: 2px solid var(--amber);
+    font-size: 13px;
+    line-height: 1.6;
+    font-style: italic;
+    color: var(--text-muted);
+  }
+
   /* NOTES */
   .notes-box {
     margin-top: 48px;
@@ -719,7 +729,9 @@
       title: { no: 'Forform (pre-shape)', en: 'Pre-shape' },
       text:  { no: 'Hvelv deigen ut på et umerlet underlag. Fold kantene inn mot midten — venstre, høyre, topp, bunn. Snu med skjøten ned. Dra deigen mot deg over benken et par ganger til du får en stram rund ball. La ligge åpent i 25 minutter.',
                en: 'Turn the dough out onto an unfloured surface. Fold the edges in toward the center — left, right, top, bottom. Flip it seam-side down. Drag the dough toward you across the counter a few times until you have a tight round ball. Let it rest uncovered for 25 minutes.' },
-      tag: { no: '⏱ 25 min', en: '⏱ 25 min' }
+      tag: { no: '⏱ 25 min', en: '⏱ 25 min' },
+      note: { no: 'Denne hviletiden er ikke avgjørende — du kan gå rett videre til endelig forming om du har dårlig tid.',
+              en: 'This rest isn\'t critical — you can move straight on to final shaping if you\'re short on time.' }
     },
     {
       title: { no: 'Endelig forming', en: 'Final shaping' },
@@ -730,7 +742,9 @@
       title: { no: 'Hevekurv og romtemperaturhev', en: 'Proofing basket and room-temperature rise' },
       text:  { no: 'Mel hevekurven godt. Legg deigen med skjøten opp. Dekk med plastfolie og la stå i romtemperatur i 45 minutter.',
                en: 'Flour the proofing basket well. Place the dough seam-side up. Cover with plastic wrap and let it sit at room temperature for 45 minutes.' },
-      tag: { no: '⏱ 45 min', en: '⏱ 45 min' }
+      tag: { no: '⏱ 45 min', en: '⏱ 45 min' },
+      note: { no: 'Denne romtemperaturhevingen er heller ikke avgjørende — du kan sette kurven rett i kjøleskapet etter forming.',
+              en: 'This room-temperature rise isn\'t critical either — you can put the basket straight in the fridge right after shaping.' }
     },
     {
       title: { no: 'Kaldheving', en: 'Cold proof' },
@@ -893,6 +907,7 @@
     const V = vars();
     document.getElementById('steps').innerHTML = STEPS.map((step, i) => {
       const tag = step.tag ? `<div class="step-tag">${tpl(step.tag[lang], V)}</div>` : '';
+      const note = step.note ? `<div class="step-note">${tpl(step.note[lang], V)}</div>` : '';
       return `
         <div class="step">
           <div class="step-number-col"><div class="step-number">${i + 1}</div><div class="step-line"></div></div>
@@ -900,6 +915,7 @@
             <div class="step-title">${tpl(step.title[lang], V)}</div>
             <div class="step-text">${tpl(step.text[lang], V)}</div>
             ${tag}
+            ${note}
           </div>
         </div>`;
     }).join('');
