@@ -45,63 +45,60 @@ body{
 .intro p{ color:var(--muted); margin-top:12px; font-size:15px; line-height:1.6; }
 .intro .howto{ display:inline-flex; gap:8px; align-items:center; margin-top:20px; padding:10px 18px; border-radius:999px; background:var(--surface); border:1px solid var(--line); font-size:13px; color:var(--snow); }
 .intro .howto kbd{ font-family:'Space Mono',monospace; background:var(--surface-2); border:1px solid var(--line); border-radius:4px; padding:2px 6px; font-size:12px; }
+.intro .note{ color:var(--muted); font-size:12.5px; margin-top:10px; }
 
 .rack{ display:flex; flex-wrap:wrap; gap:36px; justify-content:center; max-width:1180px; margin:0 auto; }
 
 .card{
   width:148mm; height:210mm;
-  background:var(--bg);
-  border-radius:6px;
+  background:#FFFFFF;
+  border-radius:4px;
   padding:16mm 14mm;
   display:flex; flex-direction:column;
   position:relative;
   overflow:hidden;
-  box-shadow:0 30px 60px -20px rgba(0,0,0,.65);
-  border:1px solid var(--line);
+  box-shadow:0 24px 48px -20px rgba(0,0,0,.35);
 }
-.card .topo{ position:absolute; inset:0; width:100%; height:100%; opacity:.08; stroke-width:1.6; pointer-events:none; }
-.card .corner{ position:absolute; top:14mm; right:14mm; font-family:'Space Mono',monospace; font-size:10px; letter-spacing:.1em; color:var(--muted); }
+.card .topo{ position:absolute; inset:0; width:100%; height:100%; opacity:.05; stroke-width:1.6; pointer-events:none; }
+.card .corner{ position:absolute; top:14mm; right:14mm; font-family:'Space Mono',monospace; font-size:10px; letter-spacing:.1em; color:#B9B2A0; }
 
 .card .eyebrow{ position:relative; font-family:'Space Mono',monospace; font-weight:700; font-size:11px; letter-spacing:.16em; text-transform:uppercase; }
-.card h2{ position:relative; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:38px; line-height:1.05; margin-top:10px; text-wrap:balance; }
-.card .lede{ position:relative; color:var(--muted); font-size:14px; line-height:1.6; margin-top:12px; max-width:34ch; }
+.card h2{ position:relative; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:36px; line-height:1.08; margin-top:10px; text-wrap:balance; color:#16232B; }
+.card .lede{ position:relative; color:#5B6B74; font-size:14px; line-height:1.6; margin-top:12px; max-width:36ch; }
 
 .scan{
   position:relative; margin:auto 0 0;
   display:flex; flex-direction:column; align-items:center; gap:14px;
 }
 .porthole{
-  width:60mm; height:60mm; border-radius:14px;
-  background:var(--paper);
+  width:58mm; height:58mm; border-radius:10px;
+  background:#FFFFFF;
   display:flex; align-items:center; justify-content:center;
   padding:6mm;
-  box-shadow:0 0 0 1px rgba(0,0,0,.04), 0 18px 34px -14px rgba(0,0,0,.55);
+  border:2px solid var(--accent);
+  position:relative;
 }
+.porthole::before, .porthole::after{
+  content:""; position:absolute; width:9px; height:9px; border:2px solid var(--accent);
+}
+.porthole::before{ top:-2px; left:-2px; border-right:none; border-bottom:none; }
+.porthole::after{ bottom:-2px; right:-2px; border-left:none; border-top:none; }
 .porthole img{ width:100%; height:100%; image-rendering:pixelated; }
-.scan .url{ font-family:'Space Mono',monospace; font-size:11.5px; letter-spacing:.02em; color:var(--muted); text-align:center; word-break:break-all; max-width:60mm; }
+.scan .url{ font-family:'Space Mono',monospace; font-size:11.5px; letter-spacing:.02em; color:#5B6B74; text-align:center; word-break:break-all; max-width:60mm; }
 
-.card.app{ --accent:var(--teal); }
-.card.spotify{ --accent:var(--gold); }
-.card.drinks{ --accent:var(--amber); }
+.card.app{ --accent:#2D8D87; }
+.card.spotify{ --accent:#B98A1E; }
 .card .eyebrow{ color:var(--accent); }
 .card .tag-dot{ position:relative; width:9px; height:9px; border-radius:50%; background:var(--accent); display:inline-block; margin-right:8px; vertical-align:1px; }
 
-.recipes{ position:relative; display:flex; flex-direction:column; gap:16px; margin-top:20px; flex:1; }
-.recipe{ border-top:1px dashed var(--line); padding-top:14px; }
-.recipe .name-line{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:17px; border-bottom:1px solid var(--line); padding-bottom:8px; min-height:26px; color:var(--muted); }
-.recipe .name-line .fill{ color:var(--muted); font-family:'Inter',sans-serif; font-weight:400; font-size:12px; }
-.recipe .ingr-lines{ margin-top:8px; display:flex; flex-direction:column; gap:9px; }
-.recipe .ingr-lines div{ border-bottom:1px solid var(--line); height:16px; }
-.recipe .badge{ display:inline-block; margin-top:8px; font-family:'Space Mono',monospace; font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); border:1px dashed var(--line); border-radius:999px; padding:3px 9px; }
-
-.card .footer-note{ position:relative; margin-top:16px; font-size:11px; color:var(--muted); border-top:1px solid var(--line); padding-top:10px; }
+.card .footer-note{ position:relative; margin-top:16px; font-size:11px; color:#8A8375; border-top:1px solid #D9D4C8; padding-top:10px; }
 
 @media print{
   body{ background:#fff; padding:0; }
   .intro{ display:none; }
   .rack{ gap:0; max-width:none; }
   .card{
-    box-shadow:none; border:none; border-radius:0;
+    box-shadow:none; border-radius:0;
     page-break-after:always; break-after:page;
     width:148mm; height:210mm;
   }
@@ -112,9 +109,10 @@ body{
 
 <div class="intro">
   <div class="eyebrow">120 år · plakatsett</div>
-  <h1>Tre kort å skrive ut</h1>
-  <p>Ett kort per side, klar for A5 (eller A4 brettet i to). Sett dem på bordene der de hører hjemme — appen ved inngangen, spillelisten ved anlegget, oppskriftene ved baren.</p>
+  <h1>To kort å skrive ut</h1>
+  <p>Ett kort per side, klar for A5 (eller A4 brettet i to). Sett dem der de hører hjemme — appen ved inngangen, spillelisten ved anlegget.</p>
   <div class="howto">Skriv ut med <kbd>Ctrl</kbd>+<kbd>P</kbd> (Mac: <kbd>⌘</kbd>+<kbd>P</kbd>) — hvert kort blir egen side</div>
+  <p class="note">Drinkoppskriftene har sin egen side: <strong>animalvalley.no/apps/40_bursdag/drinker.html</strong></p>
 </div>
 
 <div class="rack">
@@ -133,8 +131,8 @@ body{
     </svg>
     <div class="corner">120 ÅR</div>
     <div class="eyebrow"><span class="tag-dot"></span>Spill med</div>
-    <h2>Bli med i leiken</h2>
-    <p class="lede">Kunnskap, estimering, spådommer og utforskeroppdrag hele kvelden. Skann for å komme i gang.</p>
+    <h2>Bli kjent med 120-årsgjengen</h2>
+    <p class="lede">Kunnskap, gjetting og utforskeroppdrag som gjør at du blir bedre kjent med jubilantene og gjengen rundt dem — mens du kjemper om topplassen på lederbordet.</p>
     <div class="scan">
       <div class="porthole"><img src="data:image/png;base64,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" alt="QR til festappen" /></div>
       <div class="url">animalvalley.no/apps/40_bursdag</div>
@@ -165,37 +163,5 @@ body{
     <div class="footer-note">Legg til låter i spillelisten selv — den er åpen for bidrag.</div>
   </section>
 
-  <section class="card drinks">
-    <svg class="topo" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <g fill="none" stroke="var(--amber)">
-  <path d="M-20 120 C 80 60, 180 180, 420 90" />
-  <path d="M-20 200 C 90 150, 200 250, 420 170" />
-  <path d="M-20 300 C 70 250, 210 350, 420 260" />
-  <path d="M-20 410 C 100 360, 220 450, 420 380" />
-  <path d="M-20 520 C 80 470, 200 560, 420 490" />
-  <path d="M-20 640 C 110 590, 210 680, 420 600" />
-  <path d="M-20 740 C 90 700, 220 780, 420 710" />
-</g>
-    </svg>
-    <div class="corner">120 ÅR</div>
-    <div class="eyebrow"><span class="tag-dot"></span>Drinkstasjonen</div>
-    <h2>Kveldens drinker</h2>
-    <p class="lede">Tre oppskrifter i kveld — én er alkoholfri. Sjekk dem i quizen for poeng.</p>
-    <div class="recipes">
-      <div class="recipe">
-        <div class="name-line"><span class="fill">Navn på drink</span></div>
-        <div class="ingr-lines"><div></div><div></div><div></div></div>
-      </div>
-      <div class="recipe">
-        <div class="name-line"><span class="fill">Navn på drink</span></div>
-        <div class="ingr-lines"><div></div><div></div><div></div></div>
-      </div>
-      <div class="recipe">
-        <div class="name-line"><span class="fill">Navn på drink</span></div>
-        <div class="ingr-lines"><div></div><div></div><div></div></div>
-        <span class="badge">alkoholfri</span>
-      </div>
-    </div>
-  </section>
 
 </div>
