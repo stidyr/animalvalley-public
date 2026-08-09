@@ -121,9 +121,9 @@
     display:flex; align-items:center; justify-content:center; margin-top:1px;
   }
 
-  .card.mule{ --accent:var(--copper); }
-  .card.alkfri{ --accent:var(--mint); }
-  .card.spritz{ --accent:var(--spritz); }
+  .card.mule{ --accent:var(--copper); --tint:#FBEEE0; }
+  .card.alkfri{ --accent:var(--mint); --tint:#E9F5EE; }
+  .card.spritz{ --accent:var(--spritz); --tint:#FCE9D9; }
 
   footer{
     text-align:center; margin-top:40px; font-size:12px; color:var(--muted);
@@ -134,12 +134,16 @@
     .wrap{ max-width:none; }
     header{ margin-bottom:20px; }
     header .fjordline{ margin-top:12px; }
-    .card{ background:#fff; border:1px solid #999; break-inside:avoid; padding:18px 16px 16px; }
-    .card::before{ height:4px; }
-    header h1, .card-head h2{ color:#111; }
+    .card{ background:var(--tint); border:1.5px solid var(--accent); break-inside:avoid; padding:18px 16px 16px; }
+    .card::before{ height:7px; }
+    header h1{ color:#111; }
+    .card-head h2{ color:var(--accent); }
     header p, .gauge-label{ color:#444; }
+    .card-head .sub{ color:#5b6b74; }
     .steps li{ color:#111; }
-    .glass{ background:#fff; border-color:#999; }
+    .glassnote{ background:#fff; }
+    .glass{ background:#fff; border-color:var(--accent); }
+    .ingredients li{ border-bottom-color:#c9b9a3; }
     .cards{ grid-template-columns:repeat(3,1fr); gap:14px; }
     footer{ margin-top:16px; }
   }
