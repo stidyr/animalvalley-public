@@ -53,45 +53,55 @@ body{
   width:148mm; height:210mm;
   background:#FFFFFF;
   border-radius:4px;
-  padding:16mm 14mm;
+  padding:0 14mm 16mm;
   display:flex; flex-direction:column;
   position:relative;
   overflow:hidden;
   box-shadow:0 24px 48px -20px rgba(0,0,0,.35);
 }
 .card .topo{ position:absolute; inset:0; width:100%; height:100%; opacity:.05; stroke-width:1.6; pointer-events:none; }
-.card .corner{ position:absolute; top:14mm; right:14mm; font-family:'Space Mono',monospace; font-size:10px; letter-spacing:.1em; color:#B9B2A0; }
 
-.card .eyebrow{ position:relative; font-family:'Space Mono',monospace; font-weight:700; font-size:11px; letter-spacing:.16em; text-transform:uppercase; }
-.card h2{ position:relative; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:36px; line-height:1.08; margin-top:10px; text-wrap:balance; color:#16232B; }
+.masthead{
+  margin:0 -14mm 12mm; padding:8mm 14mm 7mm;
+  background:var(--accent);
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  position:relative; overflow:hidden;
+}
+.masthead .topo{ opacity:.16; }
+.masthead .mh-eyebrow{ position:relative; display:flex; align-items:center; gap:8px; font-family:'Space Mono',monospace; font-weight:700; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#fff; }
+.masthead .mh-eyebrow .tag-dot{ width:8px; height:8px; border-radius:50%; background:#fff; display:inline-block; }
+.masthead .wordmark{ position:relative; font-family:'Space Mono',monospace; font-weight:700; font-size:10px; letter-spacing:.14em; color:rgba(255,255,255,.85); border:1px solid rgba(255,255,255,.55); border-radius:999px; padding:4px 10px; white-space:nowrap; }
+
+.card h2{ position:relative; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:36px; line-height:1.08; text-wrap:balance; color:#16232B; }
 .card .lede{ position:relative; color:#5B6B74; font-size:14px; line-height:1.6; margin-top:12px; max-width:36ch; }
 
 .scan{
   position:relative; margin:auto 0 0;
   display:flex; flex-direction:column; align-items:center; gap:14px;
+  background:var(--tint);
+  border-radius:16px;
+  padding:9mm 8mm 8mm;
 }
 .porthole{
-  width:58mm; height:58mm; border-radius:10px;
+  width:56mm; height:56mm; border-radius:10px;
   background:#FFFFFF;
   display:flex; align-items:center; justify-content:center;
   padding:6mm;
-  border:2px solid var(--accent);
+  border:2.5px solid var(--accent);
   position:relative;
 }
 .porthole::before, .porthole::after{
-  content:""; position:absolute; width:9px; height:9px; border:2px solid var(--accent);
+  content:""; position:absolute; width:10px; height:10px; border:2.5px solid var(--accent);
 }
-.porthole::before{ top:-2px; left:-2px; border-right:none; border-bottom:none; }
-.porthole::after{ bottom:-2px; right:-2px; border-left:none; border-top:none; }
+.porthole::before{ top:-2.5px; left:-2.5px; border-right:none; border-bottom:none; }
+.porthole::after{ bottom:-2.5px; right:-2.5px; border-left:none; border-top:none; }
 .porthole img{ width:100%; height:100%; image-rendering:pixelated; }
 .scan .url{ font-family:'Space Mono',monospace; font-size:11.5px; letter-spacing:.02em; color:#5B6B74; text-align:center; word-break:break-all; max-width:60mm; }
 
-.card.app{ --accent:#2D8D87; }
-.card.spotify{ --accent:#B98A1E; }
-.card .eyebrow{ color:var(--accent); }
-.card .tag-dot{ position:relative; width:9px; height:9px; border-radius:50%; background:var(--accent); display:inline-block; margin-right:8px; vertical-align:1px; }
+.card.app{ --accent:#2D8D87; --tint:#E9F5F4; }
+.card.spotify{ --accent:#B98A1E; --tint:#FBF2DF; }
 
-.card .footer-note{ position:relative; margin-top:16px; font-size:11px; color:#8A8375; border-top:1px solid #D9D4C8; padding-top:10px; }
+.card .footer-note{ position:relative; margin-top:16px; font-size:11px; color:#7A7568; border-left:3px solid var(--accent); padding-left:10px; }
 
 @media print{
   body{ background:#fff; padding:0; }
@@ -118,8 +128,9 @@ body{
 <div class="rack">
 
   <section class="card app">
-    <svg class="topo" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <g fill="none" stroke="var(--teal)">
+    <div class="masthead">
+      <svg class="topo" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <g fill="none" stroke="#fff">
   <path d="M-20 120 C 80 60, 180 180, 420 90" />
   <path d="M-20 200 C 90 150, 200 250, 420 170" />
   <path d="M-20 300 C 70 250, 210 350, 420 260" />
@@ -128,9 +139,10 @@ body{
   <path d="M-20 640 C 110 590, 210 680, 420 600" />
   <path d="M-20 740 C 90 700, 220 780, 420 710" />
 </g>
-    </svg>
-    <div class="corner">120 ÅR</div>
-    <div class="eyebrow"><span class="tag-dot"></span>Spill med</div>
+      </svg>
+      <div class="mh-eyebrow"><span class="tag-dot"></span>Spill med</div>
+      <div class="wordmark">120 ÅR</div>
+    </div>
     <h2>Bli kjent med 120-årsgjengen</h2>
     <p class="lede">Kunnskap, gjetting og utforskeroppdrag som gjør at du blir bedre kjent med jubilantene og gjengen rundt dem — mens du kjemper om topplassen på lederbordet.</p>
     <div class="scan">
@@ -141,8 +153,9 @@ body{
   </section>
 
   <section class="card spotify">
-    <svg class="topo" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <g fill="none" stroke="var(--gold)">
+    <div class="masthead">
+      <svg class="topo" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <g fill="none" stroke="#fff">
   <path d="M-20 120 C 80 60, 180 180, 420 90" />
   <path d="M-20 200 C 90 150, 200 250, 420 170" />
   <path d="M-20 300 C 70 250, 210 350, 420 260" />
@@ -151,9 +164,10 @@ body{
   <path d="M-20 640 C 110 590, 210 680, 420 600" />
   <path d="M-20 740 C 90 700, 220 780, 420 710" />
 </g>
-    </svg>
-    <div class="corner">120 ÅR</div>
-    <div class="eyebrow"><span class="tag-dot"></span>Spilleliste</div>
+      </svg>
+      <div class="mh-eyebrow"><span class="tag-dot"></span>Spilleliste</div>
+      <div class="wordmark">120 ÅR</div>
+    </div>
     <h2>Sett stemninga</h2>
     <p class="lede">Kveldens spilleliste — skann og lytt med, eller legg til dine egne favoritter underveis.</p>
     <div class="scan">
