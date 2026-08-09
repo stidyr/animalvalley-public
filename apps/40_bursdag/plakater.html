@@ -29,7 +29,7 @@
 @media (prefers-color-scheme: light){ :root{ --stage-bg:#DCE3E0; } }
 @media (prefers-color-scheme: dark){ :root{ --stage-bg:#070D12; } }
 
-*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
 html,body{ height:100%; }
 body{
   background:var(--stage-bg);
