@@ -69,11 +69,11 @@ const CHALLENGES = [
     funfact: "Halleys komet passerte i 1986 og kommer tilbake i 2061. Da er jubilantene 75 år.",
   },
   {
-    id: "k-bergen", kat: "kunnskap", type: "quiz",
-    sporsmal: "Bergen kalles «Byporten til fjordene». Hva kalles det historiske hanseatiske handelskvarteret i Bergen?",
-    valg: ["Bryggen", "Sandviken", "Nordnes", "Møhlenpris"],
-    fasit: "Bryggen",
-    funfact: "Bryggen er på UNESCOs verdensarvliste siden 1979 — og er fremdeles et levende bykvarter.",
+    id: "k-studieretning", kat: "kunnskap", type: "quiz",
+    sporsmal: "Hvilken ingeniørretning har alle tre jubilantene studert?",
+    valg: ["Maskin", "Elektro", "Bygg", "Kjemi"],
+    fasit: "Elektro",
+    funfact: "Alle tre er utdannet elektroingeniører — Stian og Kristian med fordypning i automasjon, Torstein i elkraft.",
   },
 
   // ── 📐 ESTIMERING ────────────────────────────────────────────
@@ -91,18 +91,18 @@ const CHALLENGES = [
     funfact: "Med grovere målestokk er svaret bare 25 000 km. Jo mer detaljert du måler, jo lengre blir kystlinjen — Norges kystlinje er faktisk lengre enn avstanden rundt hele ekvator (40 000 km).",
   },
   {
-    id: "e-papirbretting", kat: "estimat", type: "estimat",
-    sporsmal: "Tenk deg (rent teoretisk — det går ikke i praksis) at du bretter et A4-papir 42 ganger. Hvor høy er stabelen? (km)",
-    hint: "Et tankeeksperiment. I virkeligheten klarer du knapt 7-8 bretter for hånd — men gjett likevel instinktivt.",
-    fasit: 440000, enhet: "km",
-    funfact: "440 000 km — avstand til Månen og tilbake. Et A4-ark er ca. 0,1 mm tykt. Dobling 42 ganger: 0,0001 m × 2⁴² = 439 804 651 km. Eksponentiell vekst slår intuisjonen hver gang.",
-  },
-  {
     id: "e-a4-bretting-praksis", kat: "estimat", type: "estimat",
-    sporsmal: "Nå den ekte testen: hvor mange ganger klarer DU faktisk å brette et vanlig A4-ark på midten, brett etter brett? Det ligger ark fremme — prøv selv!",
+    sporsmal: "Den ekte testen: hvor mange ganger klarer DU faktisk å brette et vanlig A4-ark på midten, brett etter brett? Det ligger ark fremme — prøv selv!",
     hint: "Tykkelsen dobles for hver bretting, så det går fortere tomt for krefter enn du tror.",
     fasit: 7, enhet: "ganger",
     funfact: "7 er den vanlige praktiske grensen for et standard A4-ark — etter det blir stabelen for tykk og liten til å få tak i. Verdensrekorden med spesialpapir (mye tynnere og enormt mye større) er brutt opp mot 13 bretter, men et A4-ark fra skriveren stopper deg lenge før det.",
+  },
+  {
+    id: "e-papirbretting", kat: "estimat", type: "estimat",
+    sporsmal: "Tenk deg (rent teoretisk — det går ikke i praksis) at du bretter et A4-papir 30 ganger. Hvor høy er stabelen? (km)",
+    hint: "Et tankeeksperiment. Du klarte nettopp knapt 7-8 bretter for hånd — men gjett likevel instinktivt.",
+    fasit: 107, enhet: "km",
+    funfact: "107 km — omtrent avstanden fra Bergen til Sogndal. Et A4-ark er ca. 0,1 mm tykt. Dobling 30 ganger: 0,0001 m × 2³⁰ = 107 374 m. Eksponentiell vekst slår intuisjonen hver gang.",
   },
   {
     id: "e-halley", kat: "estimat", type: "estimat",
@@ -117,10 +117,10 @@ const CHALLENGES = [
     funfact: "4,04 kr i 1986. I dag koster literen rundt 20 kr — en femdobling på 40 år. Justert for inflasjon burde den «bare» kostet 13–14 kr, så bensin har blitt betydelig reelt dyrere.",
   },
   {
-    id: "e-jostedalsbreen", kat: "estimat", type: "estimat",
-    sporsmal: "Jostedalsbreen, rett ved Sogn, er Europas største isbre på fastlandet. Hvor mange kvadratkilometer dekker den? (km²)",
-    fasit: 460, enhet: "km²",
-    funfact: "Rundt 460 km² (tallet varierer noe med kilde og år — breen krymper). Brearmen Nigardsbreen er et populært turmål for folk fra Sogn.",
+    id: "e-regnsky", kat: "estimat", type: "estimat",
+    sporsmal: "Det regner mye i Bergen — men hvor mye veier egentlig en stor regnsky? (kg)",
+    fasit: 1000000, enhet: "kg",
+    funfact: "En stor regnsky kan veie over 1 million kg. Vannet er bare spredt over et enormt volum luft, så skyen ser lett ut selv om den bærer på et helt vannbasseng.",
   },
   {
     id: "e-surdeig", kat: "estimat", type: "estimat",
@@ -196,11 +196,6 @@ const CHALLENGES = [
     valg: ["Ja", "Nei"],
   },
   {
-    id: "sp-jobb", kat: "spa", type: "spa",
-    sporsmal: "Nevner noen jobb uoppfordret før kl 22?",
-    valg: ["Ja", "Nei"],
-  },
-  {
     id: "sp-dans", kat: "spa", type: "spa",
     sporsmal: "Blir det dans på gulvet før midnatt?",
     valg: ["Ja", "Nei"],
@@ -213,7 +208,7 @@ const CHALLENGES = [
   },
   {
     id: "sp-klokkeslett", kat: "spa", type: "spa-estimat",
-    sporsmal: "Når legger den siste gjesten ut? Skriv klokkeslett som tall (f.eks. 23 for kl 23:00, 2 for kl 02:00).",
+    sporsmal: "Når avsluttes festen? Skriv klokkeslett som tall (f.eks. 23 for kl 23:00, 2 for kl 02:00).",
     enhet: "",
   },
   {
