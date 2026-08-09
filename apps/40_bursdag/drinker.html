@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drinkstasjon – 120-årsdagen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night: #0e1c2b;
+    --panel: #16283b;
+    --panel-2: #1c3247;
+    --line: #2c4356;
+    --birch: #f3ecdd;
+    --muted: #93a7b8;
+    --copper: #cf8a52;
+    --copper-soft: #7a5334;
+    --spritz: #e2823f;
+    --spritz-soft: #7a4a26;
+    --mint: #75ad8f;
+    --mint-soft: #345245;
+    --soda: #a9c4d4;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse 120% 80% at 50% -10%, #1a3049 0%, var(--night) 55%);
+    color:var(--birch);
+    font-family:'Work Sans', sans-serif;
+    padding:48px 20px 64px;
+  }
+
+  .wrap{ max-width:1080px; margin:0 auto; }
+
+  header{ text-align:center; margin-bottom:44px; }
+  header .eyebrow{
+    font-size:12px; letter-spacing:.24em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:10px;
+  }
+  header h1{
+    font-family:'Fraunces', serif; font-weight:600; font-size:clamp(32px,5vw,52px);
+    margin:0 0 10px; letter-spacing:-.01em;
+  }
+  header p{
+    color:var(--muted); font-size:15px; max-width:520px; margin:0 auto; line-height:1.6;
+  }
+  header .fjordline{
+    width:64px; height:2px; background:linear-gradient(90deg, transparent, var(--copper), transparent);
+    margin:22px auto 0;
+  }
+
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+  }
+  @media (max-width:880px){ .cards{ grid-template-columns:1fr; max-width:420px; margin:0 auto; } }
+
+  .card{
+    background:linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:26px 24px 24px;
+    position:relative;
+    overflow:hidden;
+  }
+  .card::before{
+    content:'';
+    position:absolute; inset:0 0 auto 0; height:3px;
+    background:var(--accent);
+  }
+
+  .card-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:6px; }
+  .card-head h2{
+    font-family:'Fraunces', serif; font-weight:600; font-size:23px; margin:0 0 4px; line-height:1.15;
+  }
+  .card-head .sub{ font-size:12.5px; color:var(--muted); font-style:italic; font-family:'Fraunces', serif;}
+  .glassnote{
+    font-size:11px; color:var(--accent); text-transform:uppercase; letter-spacing:.1em;
+    border:1px solid var(--accent); border-radius:20px; padding:4px 10px; white-space:nowrap;
+  }
+
+  .body-row{ display:flex; gap:18px; margin-top:18px; }
+
+  /* pour gauge */
+  .gauge-col{ flex:0 0 auto; display:flex; flex-direction:column; align-items:center; }
+  .glass{
+    width:46px; height:150px;
+    border-radius:5px 5px 22px 22px;
+    border:1.5px solid var(--line);
+    background:#0b1420;
+    display:flex; flex-direction:column-reverse;
+    overflow:hidden;
+  }
+  .seg{ width:100%; }
+  .gauge-label{ margin-top:8px; font-size:10.5px; color:var(--muted); text-align:center; line-height:1.3; }
+
+  .details{ flex:1; min-width:0; }
+  .ingredients{ list-style:none; margin:0 0 16px; padding:0; }
+  .ingredients li{
+    display:flex; justify-content:space-between; gap:10px;
+    font-size:14px; padding:6px 0; border-bottom:1px dashed var(--line);
+  }
+  .ingredients li:last-child{ border-bottom:none; }
+  .ingredients .amt{ color:var(--accent); font-weight:600; white-space:nowrap; font-variant-numeric:tabular-nums; }
+
+  .steps{ margin:0; padding:0; list-style:none; counter-reset:step; }
+  .steps li{
+    counter-increment:step;
+    display:flex; gap:10px; font-size:13.5px; line-height:1.5; margin-bottom:8px; color:#dfe6ec;
+  }
+  .steps li::before{
+    content:counter(step);
+    flex:0 0 auto; width:19px; height:19px; border-radius:50%;
+    background:var(--accent); color:#0e1c2b; font-weight:700; font-size:11px;
+    display:flex; align-items:center; justify-content:center; margin-top:1px;
+  }
+
+  .card.mule{ --accent:var(--copper); }
+  .card.alkfri{ --accent:var(--mint); }
+  .card.spritz{ --accent:var(--spritz); }
+
+  footer{
+    text-align:center; margin-top:40px; font-size:12px; color:var(--muted);
+  }
+
+  @media print{
+    body{ background:#fff; color:#111; padding:0; }
+    .card{ background:#fff; border:1px solid #999; break-inside:avoid; }
+    .card::before{ height:4px; }
+    header h1, .card-head h2{ color:#111; }
+    header p, .gauge-label{ color:#444; }
+    .steps li{ color:#111; }
+    .glass{ background:#fff; border-color:#999; }
+    .cards{ grid-template-columns:repeat(3,1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Selvbetjent bar</div>
+    <h1>Drinkstasjonen</h1>
+    <p>Tre drinker, samme mugge med ginger beer og lime. Bygg rett i glasset – ingen shaker nødvendig.</p>
+    <div class="fjordline"></div>
+  </header>
+
+  <div class="cards">
+
+    <!-- MOSCOW MULE -->
+    <div class="card mule">
+      <div class="card-head">
+        <div>
+          <h2>Moscow Mule</h2>
+          <div class="sub">vodka · ingefær · lime</div>
+        </div>
+        <div class="glassnote">Vanlig glass</div>
+      </div>
+
+      <div class="body-row">
+        <div class="gauge-col">
+          <div class="glass">
+            <div class="seg" style="height:65%; background:var(--copper-soft);"></div>
+            <div class="seg" style="height:11%; background:#4a7a4f;"></div>
+            <div class="seg" style="height:24%; background:var(--copper);"></div>
+          </div>
+          <div class="gauge-label">Fyll is<br>først</div>
+        </div>
+        <div class="details">
+          <ul class="ingredients">
+            <li><span>Vodka</span><span class="amt">4,5 cl</span></li>
+            <li><span>Limejuice</span><span class="amt">2 cl</span></li>
+            <li><span>Ginger beer</span><span class="amt">topp opp, ca. 12 cl</span></li>
+            <li><span>Mynte + limeskive</span><span class="amt">pynt</span></li>
+          </ul>
+          <ol class="steps">
+            <li>Fyll krus/glass med rikelig is</li>
+            <li>Vodka og limejuice</li>
+            <li>Topp med ginger beer</li>
+            <li>Rør kort, pynt med mynte og lime</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALKOHOLFRI MULE -->
+    <div class="card alkfri">
+      <div class="card-head">
+        <div>
+          <h2>Alkoholfri Mule</h2>
+          <div class="sub">ingefær · lime · sodavann</div>
+        </div>
+        <div class="glassnote">Vanlig glass</div>
+      </div>
+
+      <div class="body-row">
+        <div class="gauge-col">
+          <div class="glass">
+            <div class="seg" style="height:30%; background:var(--soda); opacity:.5;"></div>
+            <div class="seg" style="height:59%; background:var(--mint-soft);"></div>
+            <div class="seg" style="height:11%; background:var(--mint);"></div>
+          </div>
+          <div class="gauge-label">Fyll is<br>først</div>
+        </div>
+        <div class="details">
+          <ul class="ingredients">
+            <li><span>Limejuice</span><span class="amt">1,5 cl</span></li>
+            <li><span>Ginger beer</span><span class="amt">ca. 8 cl</span></li>
+            <li><span>Sodavann</span><span class="amt">ca. 4 cl</span></li>
+            <li><span>Mynte + limeskive</span><span class="amt">pynt</span></li>
+          </ul>
+          <ol class="steps">
+            <li>Fyll glasset med rikelig is</li>
+            <li>Limejuice i bunnen</li>
+            <li>Ginger beer, deretter sodavann</li>
+            <li>Rør kort, pynt med mynte og lime</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- APEROL SPRITZ -->
+    <div class="card spritz">
+      <div class="card-head">
+        <div>
+          <h2>Aperol Spritz</h2>
+          <div class="sub">aperol · prosecco · soda</div>
+        </div>
+        <div class="glassnote">Vinglass</div>
+      </div>
+
+      <div class="body-row">
+        <div class="gauge-col">
+          <div class="glass">
+            <div class="seg" style="height:17%; background:var(--soda); opacity:.5;"></div>
+            <div class="seg" style="height:50%; background:#e8c98f;"></div>
+            <div class="seg" style="height:33%; background:var(--spritz);"></div>
+          </div>
+          <div class="gauge-label">Fyll is<br>først</div>
+        </div>
+        <div class="details">
+          <ul class="ingredients">
+            <li><span>Aperol</span><span class="amt">6 cl</span></li>
+            <li><span>Prosecco</span><span class="amt">9 cl</span></li>
+            <li><span>Sodavann</span><span class="amt">3 cl, splash</span></li>
+            <li><span>Appelsinskive</span><span class="amt">pynt</span></li>
+          </ul>
+          <ol class="steps">
+            <li>Fyll vinglass med rikelig is</li>
+            <li>Aperol først</li>
+            <li>Prosecco forsiktig, langs kanten</li>
+            <li>Liten splash sodavann, pynt med appelsin</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>3 cl-mål er gitt som veiledning, ikke fasit — det er en selvbetjent bar</footer>
+
+</div>
+</body>
+</html>
