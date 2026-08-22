@@ -12,7 +12,7 @@
 const CONFIG = {
   LEDERBORD: "worker",                      // "local" | "worker"
   WORKER_URL: "https://api.animalvalley.no/party120", // brukes kun i "worker"
-  PARTY_ID: "120-2026",                     // bytt hvis dere kjører flere fester
+  PARTY_ID: "120-2026-v2",                  // bytt hvis dere kjører flere fester
   JUBILANTER: "Stian, Kristian og Torstein",
   DATO: "29. august 2026",
   EMOJIS: ["🏔️","🎮","🥖","🎿","🚲","🛠️","🧗","🗺️","🕹️","🍺","🧀","🌲","🎲","⚙️","🧭"],
