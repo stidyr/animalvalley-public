@@ -129,6 +129,15 @@
     text-align:center; margin-top:40px; font-size:12px; color:var(--muted);
   }
 
+  .print-tip{
+    display:none;
+    max-width:520px; margin:0 auto 28px; padding:12px 16px;
+    background:var(--panel-2); border:1px solid var(--line); border-radius:10px;
+    font-size:13px; color:var(--muted); text-align:center; line-height:1.5;
+  }
+  .print-tip strong{ color:var(--birch); }
+  @media screen{ .print-tip{ display:block; } }
+
   @media print{
     body{ background:#fff; color:#111; padding:0; }
     .wrap{ max-width:none; }
@@ -149,6 +158,14 @@
     .cards{ grid-template-columns:repeat(3,1fr); gap:14px; }
     footer{ margin-top:16px; }
   }
+
+  /* Fallback hvis skriverdialogen (typisk Edge) ignorerer @page-hintet under
+     og likevel printer i stående format: stable kortene i én kolonne i
+     stedet for å klemme 3-kolonners liggende-layout inn på en smal side. */
+  @media print and (orientation: portrait){
+    .cards{ grid-template-columns:1fr; max-width:480px; margin:0 auto; }
+  }
+
   @page{ size:A4 landscape; margin:12mm; }
 </style>
 </head>
@@ -161,6 +178,12 @@
     <p>Tre drinker, samme mugge med ginger beer og lime. Bygg rett i glasset – ingen shaker nødvendig.</p>
     <div class="fjordline"></div>
   </header>
+
+  <div class="print-tip">
+    <strong>Før du printer:</strong> velg «Liggende» / «Landscape» i utskriftsdialogen
+    (og skru på «Bakgrunnsgrafikk» / «Background graphics» om fargene mangler) —
+    noen nettlesere, særlig Edge, velger ikke dette automatisk.
+  </div>
 
   <div class="cards">
 
