@@ -504,14 +504,20 @@ async function viewBoard() {
     ? "Delt lederbord — oppdateres live."
     : "Testmodus (kun denne telefonen). Sett LEDERBORD='worker' for delt.";
 
-  // sørg for at egen score er pushet, hent så
-  await pushScore();
+  // Hent delt tilstand FØR vi regner ut og pusher egen score — ellers
+  // pusher vi med utdaterte spådom-utfall (fra forrige gang appen sjekket
+  // serveren), og lederbordet ser fortsatt feil ut selv etter at admin
+  // har gjort opp spådommene.
   let players = await fetchBoard();
+  await pushScore();
 
-  // fallback: vis i det minste deg selv i local-modus
-  if (!players.length && state.player) {
+  // Sørg for at vår egen (nettopp oppdaterte) score vises med én gang,
+  // uten å måtte hente på nytt fra serveren.
+  if (state.player) {
     const { total, cat } = myTotals();
-    players = [{ ...state.player, total, cat }];
+    const mine = { ...state.player, total, cat };
+    const idx = players.findIndex(p => p.id === state.player.id);
+    if (idx >= 0) players[idx] = mine; else players.push(mine);
   }
 
   players.sort((a, b) => b.total - a.total);
